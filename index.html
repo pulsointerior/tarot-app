@@ -135,9 +135,6 @@
     </div>
 
     <script>
-        // ⚠️ CONFIGURACIÓN - PEGA TU API KEY AQUÍ
-        const NEON_API_URL = 'https://ep-soft-bar-anv3ia4y.apirest.c-6.us-east-1.aws.neon.tech/neondb/rest/v1';
-        const NEON_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYwMDAwMDAwMH0.4f5r5e5d5c5b5a595857565554535251504f4e4d4c4b4a4948';
         let tiradaActual = null;
         let cartasSeleccionadas = [];
         let todasLasTiradas = [];
@@ -152,16 +149,20 @@
             if (pageId === 'lecturas') cargarTodasTiradas();
         }
 
-        // FUNCIÓN AUXILIAR PARA FETCH CON API KEY
+        // FUNCIÓN PARA CARGAR JSON LOCAL
         async function fetchNeon(endpoint) {
-            const response = await fetch(`${NEON_API_URL}${endpoint}`, {
-                headers: {
-                    'apikey': NEON_API_KEY,
-                    'Authorization': `Bearer ${NEON_API_KEY}`
-                }
-            });
+            const tabla = endpoint.split('?')[0].replace('/', '');
+            const response = await fetch(`./${tabla}.json`);
             if (!response.ok) throw new Error(`Error ${response.status}`);
-            return response.json();
+            let data = await response.json();
+            if (endpoint.includes('?')) {
+                const params = endpoint.split('?')[1];
+                if (params.includes('eq.')) {
+                    const [campo, valor] = params.split('=eq.');
+                    data = data.filter(item => item[campo] === decodeURIComponent(valor));
+                }
+            }
+            return data;
         }
 
         // CARGAR TEMAS
