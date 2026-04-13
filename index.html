@@ -95,10 +95,10 @@
             <button onclick="escogerTirada()">Escoger esta tirada</button>
         </div>
 
-        <!-- PÁGINA 5: INDICAR CARTAS -->
+        <!-- PÁGINA 5: INDICAR CARTAS (también usada por LECTURAS) -->
         <div id="indicar-cartas" class="page">
-            <a href="#" class="back-btn" onclick="showPage('detalle-tirada'); return false;">← Volver</a>
-            <h1>Indica tus Cartas</h1>
+            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
+            <h1 id="titulo-indicar">Indica tus Cartas</h1>
             <p>Saca las cartas físicamente e indícalas aquí:</p>
             <div id="selectores-cartas"></div>
             <button onclick="verResultado()">Ver Resultado</button>
@@ -125,7 +125,7 @@
             <div id="info-arcano"></div>
         </div>
 
-        <!-- PÁGINA 9: LECTURAS -->
+        <!-- PÁGINA 9: LECTURAS (buscador + atajo a indicar cartas) -->
         <div id="lecturas" class="page">
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
             <h1>Buscador de Lecturas</h1>
@@ -139,6 +139,7 @@
         let cartasSeleccionadas = [];
         let todasLasTiradas = [];
         let todasLasCartas = [];
+        let modoLectura = false; // true si viene de "Lecturas"
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -146,7 +147,14 @@
             
             if (pageId === 'temas') cargarTemas();
             if (pageId === 'arcanos') cargarArcanos();
-            if (pageId === 'lecturas') cargarTodasTiradas();
+            if (pageId === 'lecturas') {
+                modoLectura = true;
+                cargarTodasTiradas();
+            }
+            if (pageId === 'indicar-cartas' && !tiradaActual) {
+                // Si entra a indicar cartas sin tirada, volver a home
+                showPage('home');
+            }
         }
 
         // FUNCIÓN PARA CARGAR JSON LOCAL
@@ -199,7 +207,7 @@
                 container.innerHTML = data.map((t, index) => `
                     <div class="tirada-item" onclick="verDetalleTirada(${index})">
                         <h3>${t.nombre_tirada}</h3>
-                        <p>${t.num_cartas} cartas | ${t.intencion}</p>
+                        <p>${t.num_cartas} cartas | ${t.intencion || 'Sin descripción'}</p>
                     </div>
                 `).join('');
             } catch (error) {
@@ -207,16 +215,17 @@
             }
         }
 
-        // VER DETALLE TIRADA - CORREGIDO
+        // VER DETALLE TIRADA
         function verDetalleTirada(index) {
             tiradaActual = todasLasTiradas[index];
+            modoLectura = false;
             const container = document.getElementById('info-tirada');
             
             container.innerHTML = `
                 <h2>${tiradaActual.nombre_tirada}</h2>
                 <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
                 <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
-                <p><strong>Intención:</strong> ${tiradaActual.intencion}</p>
+                <p><strong>Intención:</strong> ${tiradaActual.intencion || 'No especificado'}</p>
                 <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
                 <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
                 <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
@@ -226,20 +235,29 @@
             showPage('detalle-tirada');
         }
 
-        // ESCOGER TIRADA
+        // ESCOGER TIRADA (desde detalle)
         function escogerTirada() {
+            prepararIndicarCartas();
+        }
+
+        // PREPARAR PÁGINA INDICAR CARTAS
+        function prepararIndicarCartas() {
             const container = document.getElementById('selectores-cartas');
             container.innerHTML = '';
             cartasSeleccionadas = [];
+            
+            // Cambiar título según modo
+            document.getElementById('titulo-indicar').textContent = 
+                modoLectura ? `Lectura: ${tiradaActual.nombre_tirada}` : 'Indica tus Cartas';
             
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                 container.innerHTML += `
                     <div style="margin: 10px 0;">
                         <label>Carta ${i} (C${i}):</label>
-                        <select id="carta-${i}" style="padding: 10px; margin: 5px;">
+                        <select id="carta-${i}" style="padding: 10px; margin: 5px; width: 60%;">
                             <option value="">Selecciona...</option>
                         </select>
-                        <select id="posicion-${i}" style="padding: 10px; margin: 5px;">
+                        <select id="posicion-${i}" style="padding: 10px; margin: 5px; width: 30%;">
                             <option value="recta">Recta</option>
                             <option value="invertida">Invertida</option>
                         </select>
@@ -251,7 +269,7 @@
             showPage('indicar-cartas');
         }
 
-        // CARGAR OPCIONES DE CARTAS - CORREGIDO
+        // CARGAR OPCIONES DE CARTAS
         async function cargarOpcionesCartas() {
             try {
                 const data = await fetchNeon('/cartas?select=arcano_es');
@@ -261,7 +279,7 @@
                     const select = document.getElementById(`carta-${i}`);
                     data.forEach((c, index) => {
                         const option = document.createElement('option');
-                        option.value = index; // Usar índice como ID
+                        option.value = index;
                         option.textContent = c.arcano_es;
                         select.appendChild(option);
                     });
@@ -294,7 +312,7 @@
             await mostrarResultado();
         }
 
-        // MOSTRAR RESULTADO - CORREGIDO
+        // MOSTRAR RESULTADO
         async function mostrarResultado() {
             const container = document.getElementById('resultado-content');
             container.innerHTML = '<div class="loading">Interpretando...</div>';
@@ -315,7 +333,12 @@
                     const posicionInfo = posiciones.find(p => p.posicion === sel.posicionTirada);
                     
                     const campoTema = obtenerCampoTema(tiradaActual.tema, sel.posicion);
-                    const interpretacion = carta[campoTema] || 'Sin interpretación específica para este tema';
+                    
+                    // Verificar que el campo existe
+                    let interpretacion = 'Sin interpretación específica';
+                    if (carta && carta[campoTema]) {
+                        interpretacion = carta[campoTema];
+                    }
                     
                     html += `
                         <div style="background: rgba(255,255,255,0.1); padding: 20px; margin: 15px 0; border-radius: 10px;">
@@ -335,7 +358,7 @@
             }
         }
 
-        // OBTENER CAMPO DE TEMA - CORREGIDO
+        // OBTENER CAMPO DE TEMA
         function obtenerCampoTema(tema, posicion) {
             const mapaTemas = {
                 'AMOR': 'amor',
@@ -358,7 +381,7 @@
             return `${base}_${posicion}`;
         }
 
-        // CARGAR ARCANOS - CORREGIDO
+        // CARGAR ARCANOS (solo texto, sin foto por ahora)
         async function cargarArcanos() {
             const container = document.getElementById('lista-arcanos');
             container.innerHTML = '<div class="loading">Cargando...</div>';
@@ -369,7 +392,7 @@
                 container.innerHTML = data.map((c, index) => `
                     <div class="tirada-item" onclick="verArcano(${index})">
                         <h3>${c.arcano_es}</h3>
-                        <p>${c.tipo}</p>
+                        <p>${c.tipo || 'Arcano'}</p>
                     </div>
                 `).join('');
             } catch (error) {
@@ -377,7 +400,7 @@
             }
         }
 
-        // VER ARCANO - CORREGIDO
+        // VER ARCANO
         async function verArcano(index) {
             const container = document.getElementById('info-arcano');
             container.innerHTML = '<div class="loading">Cargando...</div>';
@@ -386,6 +409,11 @@
             try {
                 const data = await fetchNeon('/cartas');
                 const c = data[index];
+                
+                if (!c) {
+                    container.innerHTML = '<div class="error">Arcano no encontrado</div>';
+                    return;
+                }
                 
                 container.innerHTML = `
                     <h2>${c.arcano_es}</h2>
@@ -404,34 +432,53 @@
             }
         }
 
-        // CARGAR TODAS LAS TIRADAS (para búsqueda)
+        // CARGAR TODAS LAS TIRADAS (para LECTURAS)
         async function cargarTodasTiradas() {
+            const container = document.getElementById('resultados-busqueda');
+            container.innerHTML = '<div class="loading">Cargando...</div>';
+            
             try {
-                const data = await fetchNeon('/tiradas?select=nombre_tirada,tema,num_cartas');
+                const data = await fetchNeon('/tiradas?select=nombre_tirada,tema,num_cartas,intencion');
                 todasLasTiradas = data;
                 
+                // Mostrar todas inicialmente
+                mostrarResultadosBusqueda(data);
+                
+                // Configurar búsqueda
                 document.getElementById('buscar-tirada').addEventListener('input', (e) => {
                     const busqueda = e.target.value.toLowerCase();
                     const resultados = data.filter(t => 
                         t.nombre_tirada.toLowerCase().includes(busqueda)
                     );
-                    
-                    document.getElementById('resultados-busqueda').innerHTML = resultados.map((t, index) => `
-                        <div class="tirada-item" onclick="cargarTiradaDirecta(${index})">
-                            <h3>${t.nombre_tirada}</h3>
-                            <p>${t.tema} | ${t.num_cartas} cartas</p>
-                        </div>
-                    `).join('');
+                    mostrarResultadosBusqueda(resultados);
                 });
             } catch (error) {
-                console.error('Error cargando tiradas:', error);
+                container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
 
-        async function cargarTiradaDirecta(index) {
-            const data = await fetchNeon('/tiradas');
-            todasLasTiradas = data;
-            verDetalleTirada(index);
+        // MOSTRAR RESULTADOS DE BÚSQUEDA (para LECTURAS)
+        function mostrarResultadosBusqueda(resultados) {
+            const container = document.getElementById('resultados-busqueda');
+            
+            if (resultados.length === 0) {
+                container.innerHTML = '<div class="error">No se encontraron tiradas</div>';
+                return;
+            }
+            
+            container.innerHTML = resultados.map((t, index) => `
+                <div class="tirada-item" onclick="seleccionarTiradaLectura(${index})">
+                    <h3>${t.nombre_tirada}</h3>
+                    <p>${t.tema} | ${t.num_cartas} cartas | ${t.intencion || 'Sin descripción'}</p>
+                </div>
+            `).join('');
+        }
+
+        // SELECCIONAR TIRADA DESDE LECTURAS (atajo directo a indicar cartas)
+        function seleccionarTiradaLectura(index) {
+            tiradaActual = todasLasTiradas[index];
+            modoLectura = true;
+            prepararIndicarCartas();
         }
     </script>
 </body>
