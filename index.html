@@ -196,8 +196,8 @@
                 const data = await fetchNeon(`/tiradas?tema=eq.${encodeURIComponent(tema)}`);
                 todasLasTiradas = data;
                 
-                container.innerHTML = data.map(t => `
-                    <div class="tirada-item" onclick="verDetalleTirada(${t.id})">
+                container.innerHTML = data.map((t, index) => `
+                    <div class="tirada-item" onclick="verDetalleTirada(${index})">
                         <h3>${t.nombre_tirada}</h3>
                         <p>${t.num_cartas} cartas | ${t.intencion}</p>
                     </div>
@@ -207,9 +207,9 @@
             }
         }
 
-        // VER DETALLE TIRADA
-        function verDetalleTirada(id) {
-            tiradaActual = todasLasTiradas.find(t => t.id === id);
+        // VER DETALLE TIRADA - CORREGIDO
+        function verDetalleTirada(index) {
+            tiradaActual = todasLasTiradas[index];
             const container = document.getElementById('info-tirada');
             
             container.innerHTML = `
@@ -217,9 +217,10 @@
                 <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
                 <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
                 <p><strong>Intención:</strong> ${tiradaActual.intencion}</p>
-                <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez}</p>
-                <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir}</p>
-                <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso}</p>
+                <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
+                <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
+                <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
+                <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso || 'No especificado'}</p>
             `;
             
             showPage('detalle-tirada');
@@ -250,17 +251,17 @@
             showPage('indicar-cartas');
         }
 
-        // CARGAR OPCIONES DE CARTAS
+        // CARGAR OPCIONES DE CARTAS - CORREGIDO
         async function cargarOpcionesCartas() {
             try {
-                const data = await fetchNeon('/cartas?select=id,arcano_es');
+                const data = await fetchNeon('/cartas?select=arcano_es');
                 todasLasCartas = data;
                 
                 for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                     const select = document.getElementById(`carta-${i}`);
-                    data.forEach(c => {
+                    data.forEach((c, index) => {
                         const option = document.createElement('option');
-                        option.value = c.id;
+                        option.value = index; // Usar índice como ID
                         option.textContent = c.arcano_es;
                         select.appendChild(option);
                     });
@@ -275,45 +276,53 @@
             cartasSeleccionadas = [];
             
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
-                const cartaId = document.getElementById(`carta-${i}`).value;
+                const cartaIndex = document.getElementById(`carta-${i}`).value;
                 const posicion = document.getElementById(`posicion-${i}`).value;
                 
-                if (!cartaId) {
+                if (cartaIndex === "") {
                     alert(`Por favor selecciona la carta ${i}`);
                     return;
                 }
                 
-                cartasSeleccionadas.push({ cartaId, posicion, posicionTirada: `C${i}` });
+                cartasSeleccionadas.push({ 
+                    cartaIndex: parseInt(cartaIndex), 
+                    posicion, 
+                    posicionTirada: `C${i}` 
+                });
             }
             
             await mostrarResultado();
         }
 
-        // MOSTRAR RESULTADO
+        // MOSTRAR RESULTADO - CORREGIDO
         async function mostrarResultado() {
             const container = document.getElementById('resultado-content');
             container.innerHTML = '<div class="loading">Interpretando...</div>';
             showPage('resultado');
             
             try {
-                const posiciones = await fetchNeon(`/posicion_en_tirada?id_tirada=eq.${tiradaActual.id_tirada}`);
+                // Cargar posiciones de esta tirada específica
+                const posicionesData = await fetchNeon('/posicion_en_tirada');
+                const posiciones = posicionesData.filter(p => 
+                    p.nombre_tirada === tiradaActual.nombre_tirada
+                );
                 
                 let html = `<h2>${tiradaActual.nombre_tirada}</h2>`;
                 
                 for (let i = 0; i < cartasSeleccionadas.length; i++) {
                     const sel = cartasSeleccionadas[i];
-                    const carta = todasLasCartas.find(c => c.id == sel.cartaId);
-                    const posicion = posiciones.find(p => p.posicion === sel.posicionTirada);
+                    const carta = todasLasCartas[sel.cartaIndex];
+                    const posicionInfo = posiciones.find(p => p.posicion === sel.posicionTirada);
                     
-                    const cartaData = await fetchNeon(`/cartas?id=eq.${sel.cartaId}`).then(r => r[0]);
                     const campoTema = obtenerCampoTema(tiradaActual.tema, sel.posicion);
+                    const interpretacion = carta[campoTema] || 'Sin interpretación específica para este tema';
                     
                     html += `
                         <div style="background: rgba(255,255,255,0.1); padding: 20px; margin: 15px 0; border-radius: 10px;">
-                            <h3>${carta.arcano_es} - ${posicion ? posicion.significado : sel.posicionTirada}</h3>
+                            <h3>${carta.arcano_es} - ${posicionInfo ? posicionInfo.significado : sel.posicionTirada}</h3>
                             <p><strong>Posición:</strong> ${sel.posicion}</p>
                             <h4>Interpretación:</h4>
-                            <p>${cartaData[campoTema] || 'Sin interpretación específica'}</p>
+                            <p>${interpretacion}</p>
                         </div>
                     `;
                 }
@@ -322,10 +331,11 @@
                 
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+                console.error(error);
             }
         }
 
-        // OBTENER CAMPO DE TEMA
+        // OBTENER CAMPO DE TEMA - CORREGIDO
         function obtenerCampoTema(tema, posicion) {
             const mapaTemas = {
                 'AMOR': 'amor',
@@ -348,17 +358,17 @@
             return `${base}_${posicion}`;
         }
 
-        // CARGAR ARCANOS
+        // CARGAR ARCANOS - CORREGIDO
         async function cargarArcanos() {
             const container = document.getElementById('lista-arcanos');
             container.innerHTML = '<div class="loading">Cargando...</div>';
             
             try {
-                const data = await fetchNeon('/cartas?select=id,arcano_es,numero_original,tipo');
+                const data = await fetchNeon('/cartas?select=arcano_es,tipo');
                 
-                container.innerHTML = data.map(c => `
-                    <div class="tirada-item" onclick="verArcano(${c.id})">
-                        <h3>${c.numero_original || ''} ${c.arcano_es}</h3>
+                container.innerHTML = data.map((c, index) => `
+                    <div class="tirada-item" onclick="verArcano(${index})">
+                        <h3>${c.arcano_es}</h3>
                         <p>${c.tipo}</p>
                     </div>
                 `).join('');
@@ -367,23 +377,27 @@
             }
         }
 
-        // VER ARCANO
-        async function verArcano(id) {
+        // VER ARCANO - CORREGIDO
+        async function verArcano(index) {
             const container = document.getElementById('info-arcano');
             container.innerHTML = '<div class="loading">Cargando...</div>';
             showPage('ficha-arcano');
             
             try {
-                const c = (await fetchNeon(`/cartas?id=eq.${id}`))[0];
+                const data = await fetchNeon('/cartas');
+                const c = data[index];
                 
                 container.innerHTML = `
-                    <h2>${c.numero_original} ${c.arcano_es}</h2>
-                    <p><strong>Tipo:</strong> ${c.tipo}</p>
+                    <h2>${c.arcano_es}</h2>
+                    <p><strong>Tipo:</strong> ${c.tipo || 'N/A'}</p>
                     <h3>Ficha Técnica</h3>
                     <p><strong>Características:</strong> ${c.caracteristicas || 'N/A'}</p>
                     <p><strong>Signo:</strong> ${c.signo || 'N/A'}</p>
                     <p><strong>Elemento:</strong> ${c.elemento || 'N/A'}</p>
                     <p><strong>Planeta:</strong> ${c.planeta || 'N/A'}</p>
+                    <p><strong>Números:</strong> ${c.numeros || 'N/A'}</p>
+                    <p><strong>Chakra:</strong> ${c.chakra || 'N/A'}</p>
+                    <p><strong>Mantra:</strong> ${c.mantra || 'N/A'}</p>
                 `;
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
@@ -393,7 +407,7 @@
         // CARGAR TODAS LAS TIRADAS (para búsqueda)
         async function cargarTodasTiradas() {
             try {
-                const data = await fetchNeon('/tiradas?select=id,nombre_tirada,tema,num_cartas');
+                const data = await fetchNeon('/tiradas?select=nombre_tirada,tema,num_cartas');
                 todasLasTiradas = data;
                 
                 document.getElementById('buscar-tirada').addEventListener('input', (e) => {
@@ -402,8 +416,8 @@
                         t.nombre_tirada.toLowerCase().includes(busqueda)
                     );
                     
-                    document.getElementById('resultados-busqueda').innerHTML = resultados.map(t => `
-                        <div class="tirada-item" onclick="cargarTiradaDirecta(${t.id})">
+                    document.getElementById('resultados-busqueda').innerHTML = resultados.map((t, index) => `
+                        <div class="tirada-item" onclick="cargarTiradaDirecta(${index})">
                             <h3>${t.nombre_tirada}</h3>
                             <p>${t.tema} | ${t.num_cartas} cartas</p>
                         </div>
@@ -414,10 +428,10 @@
             }
         }
 
-        async function cargarTiradaDirecta(id) {
-            const data = await fetchNeon(`/tiradas?id=eq.${id}`);
+        async function cargarTiradaDirecta(index) {
+            const data = await fetchNeon('/tiradas');
             todasLasTiradas = data;
-            verDetalleTirada(id);
+            verDetalleTirada(index);
         }
     </script>
 </body>
