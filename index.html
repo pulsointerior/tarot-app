@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarot App</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Georgia', serif;
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+color: #fff;
+min-height: 100vh;
+}
+
+.container {
+max-width: 480px;
+margin: 0 auto;
+padding: 20px;
+}
+
+h1 {
+font-family: 'Cinzel', serif;
+text-align: center;
+color: #d4af37;
+margin-bottom: 30px;
+font-size: 2em;
+}
+
+.menu-btn {
+display: block;
+width: 100%;
+padding: 20px;
+margin: 15px 0;
+background: rgba(212, 175, 55, 0.1);
+border: 2px solid #d4af37;
+color: #d4af37;
+text-align: center;
+text-decoration: none;
+border-radius: 10px;
+font-size: 1.2em;
+transition: all 0.3s;
+}
+
+.menu-btn:hover {
+background: rgba(212, 175, 55, 0.3);
+transform: translateY(-2px);
+}
+
+.page {
+display: none;
+}
+
+.page.active {
+display: block;
+}
+
+.back-btn {
+display: inline-block;
+margin-bottom: 20px;
+color: #d4af37;
+text-decoration: none;
+}
+
+.tema-card {
+background: rgba(255,255,255,0.05);
+padding: 15px;
+margin: 10px 0;
+border-radius: 8px;
+border-left: 3px solid #d4af37;
+}
+
+.tirada-item {
+background: rgba(255,255,255,0.08);
+padding: 15px;
+margin: 10px 0;
+border-radius: 8px;
+cursor: pointer;
+}
+
+.tirada-item:hover {
+background: rgba(255,255,255,0.15);
+}
+
+.carta-selector {
+display: flex;
+gap: 10px;
+margin: 10px 0;
+align-items: center;
+}
+
+select, button {
+padding: 10px;
+border-radius: 5px;
+border: 1px solid #d4af37;
+background: #1a1a2e;
+color: #fff;
+}
+
+button {
+background: #d4af37;
+color: #1a1a2e;
+cursor: pointer;
+font-weight: bold;
+}
+
+button:hover {
+background: #e5c158;
+}
+
+.resultado-carta {
+background: rgba(255,255,255,0.1);
+padding: 20px;
+margin: 15px 0;
+border-radius: 10px;
+}
+
+.expandible {
+cursor: pointer;
+color: #d4af37;
+margin: 10px 0;
+}
+
+.expandible-content {
+display: none;
+padding: 10px;
+background: rgba(0,0,0,0.2);
+border-radius: 5px;
+margin-top: 10px;
+}
+
+.loading {
+text-align: center;
+padding: 40px;
+color: #d4af37;
+}
+
+.error {
+color: #ff6b6b;
+text-align: center;
+padding: 20px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- PÁGINA 1: HOME -->
+<div id="home" class="page active">
+<h1>✨ Tarot ✨</h1>
+<a href="#" class="menu-btn" onclick="showPage('temas')">🔮 Explorar Tiradas</a>
+<a href="#" class="menu-btn" onclick="showPage('arcanos')">🃏 Los Arcanos</a>
+<a href="#" class="menu-btn" onclick="showPage('lecturas')">📖 Lecturas</a>
+</div>
+
+<!-- PÁGINA 2: TEMAS -->
+<div id="temas" class="page">
+<a href="#" class="back-btn" onclick="showPage('home')">← Volver</a>
+<h1>Selecciona un Tema</h1>
+<div id="lista-temas"></div>
+</div>
+
+<!-- PÁGINA 3: LISTADO TIRADAS -->
+<div id="listado-tiradas" class="page">
+<a href="#" class="back-btn" onclick="showPage('temas')">← Volver</a>
+<h1 id="titulo-tema">Tiradas</h1>
+<div id="lista-tiradas"></div>
+</div>
+
+<!-- PÁGINA 4: DETALLE TIRADA -->
+<div id="detalle-tirada" class="page">
+<a href="#" class="back-btn" onclick="showPage('listado-tiradas')">← Volver</a>
+<h1>Detalle de la Tirada</h1>
+<div id="info-tirada"></div>
+<button onclick="escogerTirada()">Escoger esta tirada</button>
+</div>
+
+<!-- PÁGINA 5: INDICAR CARTAS -->
+<div id="indicar-cartas" class="page">
+<a href="#" class="back-btn" onclick="showPage('detalle-tirada')">← Volver</a>
+<h1>Indica tus Cartas</h1>
+<p>Saca las cartas físicamente e indícalas aquí:</p>
+<div id="selectores-cartas"></div>
+<button onclick="verResultado()">Ver Resultado</button>
+</div>
+
+<!-- PÁGINA 6: RESULTADO -->
+<div id="resultado" class="page">
+<a href="#" class="back-btn" onclick="showPage('home')">← Inicio</a>
+<h1>Tu Lectura</h1>
+<div id="resultado-content"></div>
+</div>
+
+<!-- PÁGINA 7: ARCANOS -->
+<div id="arcanos" class="page">
+<a href="#" class="back-btn" onclick="showPage('home')">← Volver</a>
+<h1>Los Arcanos</h1>
+<div id="lista-arcanos"></div>
+</div>
+
+<!-- PÁGINA 8: FICHA ARCANO -->
+<div id="ficha-arcano" class="page">
+<a href="#" class="back-btn" onclick="showPage('arcanos')">← Volver</a>
+<h1>Ficha del Arcano</h1>
+<div id="info-arcano"></div>
+</div>
+
+<!-- PÁGINA 9: LECTURAS -->
+<div id="lecturas" class="page">
+<a href="#" class="back-btn" onclick="showPage('home')">← Volver</a>
+<h1>Buscador de Lecturas</h1>
+<input type="text" id="buscar-tirada" placeholder="Buscar por nombre..." style="width:100%;padding:10px;margin:10px 0;">
+<div id="resultados-busqueda"></div>
+</div>
+</div>
+
+<script>
+// CONFIGURACIÓN - REEMPLAZA ESTOS VALORES CON TUS DATOS
+const NEON_API_URL = 'https://ep-soft-bar-anv3ia4y.apirest.c-6.us-east-1.aws.neon.tech/neondb/rest/v1';
+const NEON_API_KEY = 'napi_zushnccwxzcnag7kz2wh7532yufiox79fev68ix7j7y4sj7kmgx9576km1vws2au'
+
+// VARIABLES GLOBALES
+let tiradaActual = null;
+let cartasSeleccionadas = [];
+let todasLasTiradas = [];
+let todasLasCartas = [];
+
+// MOSTRAR PÁGINA
+function showPage(pageId) {
+document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+document.getElementById(pageId).classList.add('active');
+
+if (pageId === 'temas') cargarTemas();
+if (pageId === 'arcanos') cargarArcanos();
+if (pageId === 'lecturas') cargarTodasTiradas();
+}
+
+// CARGAR TEMAS
+async function cargarTemas() {
+const container = document.getElementById('lista-temas');
+container.innerHTML = '<div class="loading">Cargando...</div>';
+
+try {
+const response = await fetch(`${NEON_API_URL}/tiradas?select=tema`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+const data = await response.json();
+const temas = [...new Set(data.map(t => t.tema))].sort();
+
+container.innerHTML = temas.map(tema => `
+<div class="tema-card" onclick="cargarTiradasPorTema('${tema}')">
+<h3>${tema}</h3>
+</div>
+`).join('');
+} catch (error) {
+container.innerHTML = '<div class="error">Error al cargar temas</div>';
+}
+}
+
+// CARGAR TIRADAS POR TEMA
+async function cargarTiradasPorTema(tema) {
+showPage('listado-tiradas');
+document.getElementById('titulo-tema').textContent = tema;
+const container = document.getElementById('lista-tiradas');
+container.innerHTML = '<div class="loading">Cargando...</div>';
+
+try {
+const response = await fetch(`${NEON_API_URL}/tiradas?tema=eq.${encodeURIComponent(tema)}`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+todasLasTiradas = await response.json();
+
+container.innerHTML = todasLasTiradas.map(t => `
+<div class="tirada-item" onclick="verDetalleTirada(${t.id})">
+<h3>${t.nombre_tirada}</h3>
+<p>${t.num_cartas} cartas | ${t.intencion}</p>
+</div>
+`).join('');
+} catch (error) {
+container.innerHTML = '<div class="error">Error al cargar tiradas</div>';
+}
+}
+
+// VER DETALLE TIRADA
+function verDetalleTirada(id) {
+tiradaActual = todasLasTiradas.find(t => t.id === id);
+const container = document.getElementById('info-tirada');
+
+container.innerHTML = `
+<h2>${tiradaActual.nombre_tirada}</h2>
+<p><strong>Tema:</strong> ${tiradaActual.tema}</p>
+<p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
+<p><strong>Intención:</strong> ${tiradaActual.intencion}</p>
+<p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez}</p>
+<p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir}</p>
+<p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso}</p>
+`;
+
+showPage('detalle-tirada');
+}
+
+// ESCOGER TIRADA
+function escogerTirada() {
+const container = document.getElementById('selectores-cartas');
+container.innerHTML = '';
+cartasSeleccionadas = [];
+
+for (let i = 1; i <= tiradaActual.num_cartas; i++) {
+container.innerHTML += `
+<div class="carta-selector">
+<label>Carta ${i} (C${i}):</label>
+<select id="carta-${i}">
+<option value="">Selecciona...</option>
+</select>
+<select id="posicion-${i}">
+<option value="recta">Recta</option>
+<option value="invertida">Invertida</option>
+</select>
+</div>
+`;
+}
+
+cargarOpcionesCartas();
+showPage('indicar-cartas');
+}
+
+// CARGAR OPCIONES DE CARTAS
+async function cargarOpcionesCartas() {
+try {
+const response = await fetch(`${NEON_API_URL}/cartas?select=id,arcano_es`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+todasLasCartas = await response.json();
+
+for (let i = 1; i <= tiradaActual.num_cartas; i++) {
+const select = document.getElementById(`carta-${i}`);
+todasLasCartas.forEach(c => {
+const option = document.createElement('option');
+option.value = c.id;
+option.textContent = c.arcano_es;
+select.appendChild(option);
+});
+}
+} catch (error) {
+console.error('Error cargando cartas:', error);
+}
+}
+
+// VER RESULTADO
+async function verResultado() {
+cartasSeleccionadas = [];
+
+for (let i = 1; i <= tiradaActual.num_cartas; i++) {
+const cartaId = document.getElementById(`carta-${i}`).value;
+const posicion = document.getElementById(`posicion-${i}`).value;
+
+if (!cartaId) {
+alert(`Por favor selecciona la carta ${i}`);
+return;
+}
+
+cartasSeleccionadas.push({ cartaId, posicion, posicionTirada: `C${i}` });
+}
+
+await mostrarResultado();
+}
+
+// MOSTRAR RESULTADO
+async function mostrarResultado() {
+const container = document.getElementById('resultado-content');
+container.innerHTML = '<div class="loading">Interpretando...</div>';
+showPage('resultado');
+
+try {
+// Cargar posiciones de la tirada
+const posResponse = await fetch(
+`${NEON_API_URL}/posicion_en_tirada?id_tirada=eq.${tiradaActual.id_tirada}`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+const posiciones = await posResponse.json();
+
+let html = `<h2>${tiradaActual.nombre_tirada}</h2>`;
+
+for (let i = 0; i < cartasSeleccionadas.length; i++) {
+const sel = cartasSeleccionadas[i];
+const carta = todasLasCartas.find(c => c.id == sel.cartaId);
+const posicion = posiciones.find(p => p.posicion === sel.posicionTirada);
+
+// Cargar interpretación completa de la carta
+const cartaResponse = await fetch(
+`${NEON_API_URL}/cartas?id=eq.${sel.cartaId}`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+const cartaData = (await cartaResponse.json())[0];
+
+const campoTema = obtenerCampoTema(tiradaActual.tema, sel.posicion);
+
+html += `
+<div class="resultado-carta">
+<h3>${carta.arcano_es} - ${posicion ? posicion.significado : sel.posicionTirada}</h3>
+<p><strong>Posición:</strong> ${sel.posicion}</p>
+
+<div class="expandible" onclick="toggle(this)">
+▼ Ver ficha técnica
+</div>
+<div class="expandible-content">
+<p><strong>Características:</strong> ${cartaData.caracteristicas || 'N/A'}</p>
+<p><strong>Signo:</strong> ${cartaData.signo || 'N/A'}</p>
+<p><strong>Elemento:</strong> ${cartaData.elemento || 'N/A'}</p>
+<p><strong>Planeta:</strong> ${cartaData.planeta || 'N/A'}</p>
+</div>
+
+<h4>Interpretación:</h4>
+<p>${cartaData[campoTema] || 'Sin interpretación específica para este tema'}</p>
+</div>
+`;
+}
+
+container.innerHTML = html;
+
+} catch (error) {
+container.innerHTML = '<div class="error">Error al cargar el resultado</div>';
+console.error(error);
+}
+}
+
+// OBTENER CAMPO DE TEMA
+function obtenerCampoTema(tema, posicion) {
+const mapaTemas = {
+AMOR': 'amor',
+TRABAJO': 'trabajo',
+DINERO': 'dinero',
+SALUD': 'salud',
+PREGUNTAS SÍ/NO': 'interpretacion_si_no',
+ENERGÍA DEL DÍA': 'energia_dia',
+DECISIONES Y ELECCIONES': 'decisiones_elecciones',
+ESPIRITUALIDAD Y CRECIMIENTO': 'espiritualidad_crecimiento',
+PROYECTOS Y CREATIVIDAD': 'proyectos_creatividad',
+VIAJES Y MUDANZAS': 'viajes_mudanzas',
+FAMILIA Y HOGAR': 'familia_hogar',
+PASADO-PRESENTE-FUTURO': 'pasado',
+LECTURAS GENERALES': 'gen',
+RELACIONES & AUTOCONOCIMIENTO': 'rel_auto'
+};
+
+const base = mapaTemas[tema] || 'gen';
+return `${base}_${posicion}`;
+}
+
+// CARGAR ARCANOS
+async function cargarArcanos() {
+const container = document.getElementById('lista-arcanos');
+container.innerHTML = '<div class="loading">Cargando...</div>';
+
+try {
+const response = await fetch(`${NEON_API_URL}/cartas?select=id,arcano_es,numero_original,tipo`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+const cartas = await response.json();
+
+container.innerHTML = cartas.map(c => `
+<div class="tirada-item" onclick="verArcano(${c.id})">
+<h3>${c.numero_original || ''} ${c.arcano_es}</h3>
+<p>${c.tipo}</p>
+</div>
+`).join('');
+} catch (error) {
+container.innerHTML = '<div class="error">Error al cargar arcanos</div>';
+}
+}
+
+// VER ARCANO
+async function verArcano(id) {
+const container = document.getElementById('info-arcano');
+container.innerHTML = '<div class="loading">Cargando...</div>';
+showPage('ficha-arcano');
+
+try {
+const response = await fetch(`${NEON_API_URL}/cartas?id=eq.${id}`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+const c = (await response.json())[0];
+
+container.innerHTML = `
+<h2>${c.numero_original} ${c.arcano_es}</h2>
+<p><strong>Tipo:</strong> ${c.tipo}</p>
+
+<h3>Ficha Técnica</h3>
+<p><strong>Características:</strong> ${c.caracteristicas || 'N/A'}</p>
+<p><strong>Signo:</strong> ${c.signo || 'N/A'}</p>
+<p><strong>Elemento:</strong> ${c.elemento || 'N/A'}</p>
+<p><strong>Planeta:</strong> ${c.planeta || 'N/A'}</p>
+<p><strong>Números:</strong> ${c.numeros || 'N/A'}</p>
+<p><strong>Chakra:</strong> ${c.chakra || 'N/A'}</p>
+<p><strong>Mantra:</strong> ${c.mantra || 'N/A'}</p>
+
+<h3>Significados</h3>
+<div class="expandible" onclick="toggle(this)">
+▼ Palabras clave recta/invertida
+</div>
+<div class="expandible-content">
+<p><strong>Recta:</strong> ${c.palabras_clave_recta || 'N/A'}</p>
+<p><strong>Invertida:</strong> ${c.palabras_clave_inv || 'N/A'}</p>
+</div>
+`;
+} catch (error) {
+container.innerHTML = '<div class="error">Error al cargar arcano</div>';
+}
+}
+
+// CARGAR TODAS LAS TIRADAS (para búsqueda)
+async function cargarTodasTiradas() {
+try {
+const response = await fetch(`${NEON_API_URL}/tiradas?select=id,nombre_tirada,tema,num_cartas`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+todasLasTiradas = await response.json();
+
+document.getElementById('buscar-tirada').addEventListener('input', (e) => {
+const busqueda = e.target.value.toLowerCase();
+const resultados = todasLasTiradas.filter(t =>
+t.nombre_tirada.toLowerCase().includes(busqueda)
+);
+
+document.getElementById('resultados-busqueda').innerHTML = resultados.map(t => `
+<div class="tirada-item" onclick="cargarTiradaDirecta(${t.id})">
+<h3>${t.nombre_tirada}</h3>
+<p>${t.tema} | ${t.num_cartas} cartas</p>
+</div>
+`).join('');
+});
+} catch (error) {
+console.error('Error cargando tiradas:', error);
+}
+}
+
+// CARGAR TIRADA DIRECTA (desde búsqueda)
+async function cargarTiradaDirecta(id) {
+const response = await fetch(`${NEON_API_URL}/tiradas?id=eq.${id}`, {
+headers: {
+apikey': NEON_API_KEY,
+Authorization': `Bearer ${NEON_API_KEY}`
+}
+});
+
+const tiradas = await response.json();
+todasLasTiradas = tiradas;
+verDetalleTirada(id);
+}
+
+// TOGGLE EXPANDIBLE
+function toggle(element) {
+const content = element.nextElementSibling;
+content.style.display = content.style.display === 'block' ? 'none' : 'block';
+element.textContent = element.textContent.includes('▼') ?
+element.textContent.replace('▼', '▲') :
+element.textContent.replace('▲', '▼');
+}
+
+// INICIALIZAR
+document.addEventListener('DOMContentLoaded', () => {
+// La app inicia sola
+});
+</script>
+</body>
+</html>
