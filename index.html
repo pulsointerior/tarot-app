@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarot App</title>
+    <title>✨ Tarot ✨</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -27,6 +27,22 @@
             font-size: 2em;
         }
         
+        h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        
         .menu-btn {
             display: block;
             width: 100%;
@@ -39,6 +55,12 @@
             text-decoration: none;
             border-radius: 10px;
             font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
         }
         
         .page { display: none; }
@@ -49,14 +71,27 @@
             margin-bottom: 20px;
             color: #d4af37;
             text-decoration: none;
+            font-size: 1.1em;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
         }
         
         .tema-card, .tirada-item, .arcano-item {
             background: rgba(255,255,255,0.08);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .tema-card:hover, .tirada-item:hover, .arcano-item:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: #d4af37;
+            transform: translateX(5px);
         }
         
         .arcano-item {
@@ -75,10 +110,23 @@
             justify-content: center;
             font-size: 0.7em;
             color: #1a1a2e;
+            font-weight: bold;
+            text-align: center;
         }
         
-        .loading { text-align: center; padding: 40px; color: #d4af37; }
-        .error { color: #ff6b6b; text-align: center; padding: 20px; }
+        .loading { 
+            text-align: center; 
+            padding: 40px; 
+            color: #d4af37;
+            font-size: 1.1em;
+        }
+        
+        .error { 
+            color: #ff6b6b; 
+            text-align: center; 
+            padding: 20px; 
+            font-size: 1.1em;
+        }
         
         .search-box {
             width: 100%;
@@ -91,11 +139,15 @@
             font-size: 1em;
         }
         
+        .search-box::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
         .expandible {
             background: rgba(212, 175, 55, 0.1);
             border: 1px solid #d4af37;
             border-radius: 8px;
-            margin: 10px 0;
+            margin: 15px 0;
             overflow: hidden;
         }
         
@@ -105,11 +157,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .expandible-header:hover {
+            background: rgba(212, 175, 55, 0.1);
         }
         
         .expandible-content {
             display: none;
-            padding: 15px;
+            padding: 20px;
             border-top: 1px solid #d4af37;
         }
         
@@ -119,8 +176,8 @@
         
         .carta-resultado {
             background: rgba(255,255,255,0.1);
-            padding: 20px;
-            margin: 15px 0;
+            padding: 25px;
+            margin: 20px 0;
             border-radius: 10px;
             text-align: center;
         }
@@ -129,20 +186,167 @@
             width: 120px;
             height: 180px;
             background: #d4af37;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #1a1a2e;
             font-weight: bold;
+            font-size: 0.9em;
         }
         
         .combinacion-item {
             background: rgba(255,255,255,0.05);
-            padding: 15px;
-            margin: 10px 0;
+            padding: 20px;
+            margin: 15px 0;
             border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .combinacion-arcanos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .combinacion-arcano {
+            text-align: center;
+        }
+        
+        .combinacion-arcano .carta-img {
+            width: 80px;
+            height: 120px;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+        }
+        
+        .combinacion-arcano p {
+            font-size: 0.9em;
+            color: #d4af37;
+            font-weight: bold;
+        }
+        
+        .combinacion-versus {
+            font-size: 1.5em;
+            color: #d4af37;
+        }
+        
+        .info-grid {
+            display: grid;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        
+        .info-grid p {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .info-grid p:last-child {
+            border-bottom: none;
+        }
+        
+        strong {
+            color: #d4af37;
+        }
+        
+        select {
+            padding: 12px;
+            margin: 5px;
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        button {
+            padding: 15px;
+            background: #d4af37;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #e5c048;
+            transform: translateY(-2px);
+        }
+        
+        .bottom-back {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .bottom-back .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            margin-bottom: 0;
+        }
+        
+        .selector-carta {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .selector-carta label {
+            display: block;
+            margin-bottom: 10px;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .selectores-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .selectores-row select:first-child {
+            flex: 2;
+        }
+        
+        .selectores-row select:last-child {
+            flex: 1;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border-color: #d4af37;
+            opacity: 0.3;
+        }
+        
+        .interpretacion-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .num-cartas-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-left: 10px;
+            border: 1px solid #d4af37;
         }
     </style>
 </head>
@@ -161,6 +365,9 @@
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
             <h1>Selecciona un Tema</h1>
             <div id="lista-temas"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+            </div>
         </div>
 
         <!-- PÁGINA 3: LISTADO TIRADAS -->
@@ -168,6 +375,9 @@
             <a href="#" class="back-btn" onclick="showPage('temas'); return false;">← Volver</a>
             <h1 id="titulo-tema">Tiradas</h1>
             <div id="lista-tiradas"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('temas'); return false;">← Volver a Temas</a>
+            </div>
         </div>
 
         <!-- PÁGINA 4: DETALLE TIRADA -->
@@ -175,17 +385,23 @@
             <a href="#" class="back-btn" onclick="showPage('listado-tiradas'); return false;">← Volver</a>
             <h1>Detalle de la Tirada</h1>
             <div id="info-tirada"></div>
-            <button onclick="escogerTirada()" style="margin-top: 20px; padding: 15px; background: #d4af37; color: #1a1a2e; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%;">Escoger esta tirada</button>
+            <button onclick="escogerTirada()">Escoger esta tirada</button>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('listado-tiradas'); return false;">← Volver a Tiradas</a>
+            </div>
         </div>
 
-        <!-- PÁGINA 5: INDICAR CARTAS (usada por Explorar y Lecturas) -->
+        <!-- PÁGINA 5: INDICAR CARTAS -->
         <div id="indicar-cartas" class="page">
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
             <h1 id="titulo-indicar">Indica tus Cartas</h1>
             <h2 id="subtitulo-indicar" style="color: #d4af37; text-align: center; margin-bottom: 20px; font-size: 1.1em;"></h2>
-            <p>Saca las cartas físicamente e indícalas aquí:</p>
+            <p style="margin-bottom: 20px;">Saca las cartas físicamente e indícalas aquí:</p>
             <div id="selectores-cartas"></div>
-            <button onclick="verResultado()" style="margin-top: 20px; padding: 15px; background: #d4af37; color: #1a1a2e; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; width: 100%;">Ver Resultado</button>
+            <button onclick="verResultado()">Ver Resultado</button>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+            </div>
         </div>
 
         <!-- PÁGINA 6: RESULTADO -->
@@ -194,6 +410,9 @@
             <h1>Tu Lectura</h1>
             <h2 id="titulo-resultado-tirada" style="color: #d4af37; text-align: center; margin-bottom: 20px;"></h2>
             <div id="resultado-content"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+            </div>
         </div>
 
         <!-- PÁGINA 7: ARCANOS -->
@@ -201,6 +420,9 @@
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
             <h1>Los Arcanos</h1>
             <div id="lista-arcanos"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+            </div>
         </div>
 
         <!-- PÁGINA 8: FICHA ARCANO -->
@@ -208,16 +430,24 @@
             <a href="#" class="back-btn" onclick="showPage('arcanos'); return false;">← Volver</a>
             <h1>Ficha del Arcano</h1>
             <div id="info-arcano"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('arcanos'); return false;">← Volver a Arcanos</a>
+            </div>
         </div>
 
-        <!-- PÁGINA 9: LECTURAS (atajo con buscador) -->
+        <!-- PÁGINA 9: LECTURAS -->
         <div id="lecturas" class="page">
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
             <h1>📖 Lecturas</h1>
             <p style="text-align: center; margin-bottom: 20px;">Atajo directo - Busca tu tirada</p>
             <input type="text" id="buscar-numero" class="search-box" placeholder="Buscar por número...">
             <input type="text" id="buscar-nombre" class="search-box" placeholder="Buscar por nombre...">
+            <input type="text" id="buscar-cartas" class="search-box" placeholder="Buscar por número de cartas...">
+            <input type="text" id="buscar-tema" class="search-box" placeholder="Buscar por tema...">
             <div id="resultados-busqueda"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+            </div>
         </div>
     </div>
 
@@ -232,13 +462,11 @@
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            
             if (pageId === 'temas') cargarTemas();
             if (pageId === 'arcanos') cargarArcanos();
             if (pageId === 'lecturas') cargarTodasTiradasLecturas();
         }
 
-        // CARGAR JSON LOCAL
         async function fetchNeon(endpoint) {
             const tabla = endpoint.split('?')[0].replace('/', '');
             const response = await fetch(`./${tabla}.json`);
@@ -254,15 +482,12 @@
             return data;
         }
 
-        // CARGAR TEMAS
         async function cargarTemas() {
             const container = document.getElementById('lista-temas');
             container.innerHTML = '<div class="loading">Cargando...</div>';
-            
             try {
                 const data = await fetchNeon('/tiradas?select=tema');
                 const temas = [...new Set(data.map(t => t.tema))].sort();
-                
                 container.innerHTML = temas.map(tema => `
                     <div class="tema-card" onclick="cargarTiradasPorTema('${tema.replace(/'/g, "\\'")}')">
                         <h3>${tema}</h3>
@@ -273,21 +498,18 @@
             }
         }
 
-        // CARGAR TIRADAS POR TEMA
         async function cargarTiradasPorTema(tema) {
             showPage('listado-tiradas');
             document.getElementById('titulo-tema').textContent = tema;
             const container = document.getElementById('lista-tiradas');
             container.innerHTML = '<div class="loading">Cargando...</div>';
-            
             try {
                 const data = await fetchNeon(`/tiradas?tema=eq.${encodeURIComponent(tema)}`);
                 todasLasTiradas = data;
-                
                 container.innerHTML = data.map((t, index) => `
                     <div class="tirada-item" onclick="verDetalleTirada(${index})">
-                        <h3>${index + 1} - ${t.nombre_tirada}</h3>
-                        <p>${t.intencion || 'Sin descripción'}</p>
+                        <h3>${index + 1} - ${t.nombre_tirada} <span class="num-cartas-badge">${t.num_cartas} cartas</span></h3>
+                        <p>${t['intención'] || t.intencion || 'Sin descripción'}</p>
                     </div>
                 `).join('');
             } catch (error) {
@@ -295,64 +517,58 @@
             }
         }
 
-        // VER DETALLE TIRADA
         function verDetalleTirada(index) {
             tiradaActual = todasLasTiradas[index];
             const container = document.getElementById('info-tirada');
-            
             container.innerHTML = `
                 <h2 style="color: #d4af37; margin-bottom: 15px;">${index + 1} - ${tiradaActual.nombre_tirada}</h2>
-                <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
-                <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
-                <p><strong>Intención:</strong> ${tiradaActual.intencion || 'No especificado'}</p>
-                <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
-                <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
-                <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
-                <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso || 'No especificado'}</p>
+                <div class="info-grid">
+                    <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
+                    <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
+                    <p><strong>Intención:</strong> ${tiradaActual['intención'] || t.intencion || 'No especificado'}</p>
+                    <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
+                    <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
+                    <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
+                    <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso || 'No especificado'}</p>
+                </div>
             `;
-            
             showPage('detalle-tirada');
         }
 
-        // ESCOGER TIRADA (desde detalle)
         function escogerTirada() {
             prepararIndicarCartas();
         }
 
-        // PREPARAR INDICAR CARTAS
         function prepararIndicarCartas() {
             document.getElementById('titulo-indicar').textContent = 'Indica tus Cartas';
             document.getElementById('subtitulo-indicar').textContent = tiradaActual.nombre_tirada;
-            
             const container = document.getElementById('selectores-cartas');
             container.innerHTML = '';
             cartasSeleccionadas = [];
-            
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                 container.innerHTML += `
-                    <div style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                        <label style="display: block; margin-bottom: 5px; color: #d4af37;">Carta ${i} (C${i}):</label>
-                        <select id="carta-${i}" style="padding: 10px; margin: 5px; width: 65%; background: #1a1a2e; color: #fff; border: 1px solid #d4af37; border-radius: 5px;">
-                            <option value="">Selecciona arcano...</option>
-                        </select>
-                        <select id="posicion-${i}" style="padding: 10px; margin: 5px; width: 30%; background: #1a1a2e; color: #fff; border: 1px solid #d4af37; border-radius: 5px;">
-                            <option value="recta">Recta</option>
-                            <option value="invertida">Invertida</option>
-                        </select>
+                    <div class="selector-carta">
+                        <label>Carta ${i} (C${i}):</label>
+                        <div class="selectores-row">
+                            <select id="carta-${i}">
+                                <option value="">Selecciona arcano...</option>
+                            </select>
+                            <select id="posicion-${i}">
+                                <option value="recta">Recta</option>
+                                <option value="invertida">Invertida</option>
+                            </select>
+                        </div>
                     </div>
                 `;
             }
-            
             cargarOpcionesCartas();
             showPage('indicar-cartas');
         }
 
-        // CARGAR OPCIONES DE CARTAS
         async function cargarOpcionesCartas() {
             try {
                 const data = await fetchNeon('/cartas');
                 todasLasCartas = data;
-                
                 for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                     const select = document.getElementById(`carta-${i}`);
                     data.forEach((c, index) => {
@@ -367,53 +583,39 @@
             }
         }
 
-        // VER RESULTADO
         async function verResultado() {
             cartasSeleccionadas = [];
-            
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                 const cartaIndex = document.getElementById(`carta-${i}`).value;
                 const posicion = document.getElementById(`posicion-${i}`).value;
-                
                 if (cartaIndex === "") {
                     alert(`Por favor selecciona la carta ${i}`);
                     return;
                 }
-                
-                cartasSeleccionadas.push({ 
-                    cartaIndex: parseInt(cartaIndex), 
-                    posicion, 
+                cartasSeleccionadas.push({
+                    cartaIndex: parseInt(cartaIndex),
+                    posicion,
                     posicionTirada: `C${i}`
                 });
             }
-            
             await mostrarResultado();
         }
 
-        // MOSTRAR RESULTADO CON TU ESTRUCTURA EXACTA
         async function mostrarResultado() {
             const container = document.getElementById('resultado-content');
             container.innerHTML = '<div class="loading">Interpretando...</div>';
             document.getElementById('titulo-resultado-tirada').textContent = tiradaActual.nombre_tirada;
             showPage('resultado');
-            
             try {
-                // Cargar datos necesarios
                 const [posicionesData, combinacionesData] = await Promise.all([
                     fetchNeon('/posicion_en_tirada'),
                     fetchNeon('/combinaciones')
                 ]);
-                
                 todasLasPosiciones = posicionesData;
                 todasLasCombinaciones = combinacionesData;
-                
-                const posiciones = posicionesData.filter(p => 
-                    p.nombre_tirada === tiradaActual.nombre_tirada
-                );
+                const posiciones = posicionesData.filter(p => p.nombre_tirada === tiradaActual.nombre_tirada);
                 
                 let html = '';
-                
-                // MOSTRAR CADA CARTA CON TU ESTRUCTURA DE 4 PARTES
                 for (let i = 0; i < cartasSeleccionadas.length; i++) {
                     const sel = cartasSeleccionadas[i];
                     const carta = todasLasCartas[sel.cartaIndex];
@@ -438,24 +640,28 @@
                                 <span>▼</span>
                             </div>
                             <div class="expandible-content" style="text-align: left;">
-                                <p><strong>Características:</strong> ${carta.caracteristicas || 'N/A'}</p>
-                                <p><strong>Signo:</strong> ${carta.signo || 'N/A'}</p>
-                                <p><strong>Elemento:</strong> ${carta.elemento || 'N/A'}</p>
-                                <p><strong>Planeta:</strong> ${carta.planeta || 'N/A'}</p>
-                                <p><strong>Números:</strong> ${carta.numeros || 'N/A'}</p>
-                                <p><strong>Chakra:</strong> ${carta.chakra || 'N/A'}</p>
-                                <p><strong>Mantra:</strong> ${carta.mantra || 'N/A'}</p>
-                                <p><strong>Piedras/Cristales:</strong> ${carta.piedras_cristales || 'N/A'}</p>
-                                <p><strong>Esencia/Incienso:</strong> ${carta.esencia_incienso || 'N/A'}</p>
-                                <p><strong>Aceites/Hierbas:</strong> ${carta.aceites_hierbas || 'N/A'}</p>
-                                <p><strong>Cábala:</strong> ${carta.cabala || 'N/A'}</p>
-                                <p><strong>Color:</strong> ${carta.color || 'N/A'}</p>
-                                <p><strong>Planta:</strong> ${carta.planta || 'N/A'}</p>
-                                <hr style="margin: 10px 0; border-color: #d4af37;">
-                                <p><strong>Palabras clave:</strong> ${sel.posicion === 'recta' ? (carta.palabras_clave_recta || 'N/A') : (carta.palabras_clave_inv || 'N/A')}</p>
-                                <p><strong>Aspectos personalidad:</strong> ${sel.posicion === 'recta' ? (carta.aspectos_personalidad_recta || 'N/A') : (carta.aspectos_personalidad_inv || 'N/A')}</p>
-                                <p><strong>Recomendaciones meditación:</strong> ${sel.posicion === 'recta' ? (carta.recomendaciones_meditacion || 'N/A') : (carta.recomendaciones_meditacion_inv || 'N/A')}</p>
-                                <p><strong>Actividades sugeridas:</strong> ${sel.posicion === 'recta' ? (carta.actividades_sugeridas || 'N/A') : (carta.actividades_sugeridas_inv || 'N/A')}</p>
+                                <div class="info-grid">
+                                    <p><strong>Características:</strong> ${carta.caracteristicas || 'N/A'}</p>
+                                    <p><strong>Signo:</strong> ${carta.signo || 'N/A'}</p>
+                                    <p><strong>Elemento:</strong> ${carta.elemento || 'N/A'}</p>
+                                    <p><strong>Planeta:</strong> ${carta.planeta || 'N/A'}</p>
+                                    <p><strong>Números:</strong> ${carta.numeros || 'N/A'}</p>
+                                    <p><strong>Chakra:</strong> ${carta.chakra || 'N/A'}</p>
+                                    <p><strong>Mantra:</strong> ${carta.mantra || 'N/A'}</p>
+                                    <p><strong>Piedras/Cristales:</strong> ${carta.piedras_cristales || 'N/A'}</p>
+                                    <p><strong>Esencia/Incienso:</strong> ${carta.esencia_incienso || 'N/A'}</p>
+                                    <p><strong>Aceites/Hierbas:</strong> ${carta.aceites_hierbas || 'N/A'}</p>
+                                    <p><strong>Cábala:</strong> ${carta.cabala || 'N/A'}</p>
+                                    <p><strong>Color:</strong> ${carta.color || 'N/A'}</p>
+                                    <p><strong>Planta:</strong> ${carta.planta || 'N/A'}</p>
+                                </div>
+                                <hr>
+                                <div class="info-grid">
+                                    <p><strong>Palabras clave:</strong> ${sel.posicion === 'recta' ? (carta.palabras_clave_recta || 'N/A') : (carta.palabras_clave_inv || 'N/A')}</p>
+                                    <p><strong>Aspectos personalidad:</strong> ${sel.posicion === 'recta' ? (carta.aspectos_personalidad_recta || 'N/A') : (carta.aspectos_personalidad_inv || 'N/A')}</p>
+                                    <p><strong>Recomendaciones meditación:</strong> ${sel.posicion === 'recta' ? (carta.recomendaciones_meditacion || 'N/A') : (carta.recomendaciones_meditacion_inv || 'N/A')}</p>
+                                    <p><strong>Actividades sugeridas:</strong> ${sel.posicion === 'recta' ? (carta.actividades_sugeridas || 'N/A') : (carta.actividades_sugeridas_inv || 'N/A')}</p>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -463,15 +669,14 @@
                     // PARTE 3: INTERPRETACIÓN SEGÚN TEMA
                     const campoTema = obtenerCampoTema(tiradaActual.tema, sel.posicion);
                     const interpretacion = carta[campoTema] || 'Sin interpretación específica para este tema';
-                    
                     html += `
-                        <div style="margin-top: 15px; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px;">
-                            <h4 style="color: #d4af37; margin-bottom: 10px;">🔮 Interpretación</h4>
+                        <div class="interpretacion-box">
+                            <h4>🔮 Interpretación</h4>
                             <p>${interpretacion}</p>
                         </div>
                     `;
                     
-                    // PARTE 4: COMBINACIONES (EXPANDIBLE) - si hay con otras cartas de la tirada
+                    // PARTE 4: COMBINACIONES (EXPANDIBLE)
                     const combinaciones = buscarCombinaciones(carta, i);
                     if (combinaciones.length > 0) {
                         html += `
@@ -482,66 +687,80 @@
                                 </div>
                                 <div class="expandible-content" style="text-align: left;">
                         `;
-                        
                         combinaciones.forEach(comb => {
                             html += `
                                 <div class="combinacion-item">
-                                    <p><strong>Con:</strong> ${comb.otraCarta}</p>
-                                    <p><strong>Interpretación:</strong> ${comb.interpretacion}</p>
-                                    <p><strong>Posición:</strong> ${comb.posicion}</p>
-                                    ${comb.tipo ? `<p><strong>Tipo:</strong> ${comb.tipo}</p>` : ''}
-                                    ${comb.comb_proximo_paso ? `<p><strong>Próximo paso:</strong> ${comb.comb_proximo_paso}</p>` : ''}
-                                    ${comb.comb_alerta ? `<p><strong>Alerta:</strong> ${comb.comb_alerta}</p>` : ''}
-                                    ${comb.comb_si_no ? `<p><strong>Sí/No:</strong> ${comb.comb_si_no}</p>` : ''}
+                                    <div class="combinacion-arcanos">
+                                        <div class="combinacion-arcano">
+                                            <div class="carta-img">FOTO<br>${carta.numero || ''}</div>
+                                            <p>${carta.arcano_es}</p>
+                                        </div>
+                                        <div class="combinacion-versus">⚡</div>
+                                        <div class="combinacion-arcano">
+                                            <div class="carta-img">FOTO<br>${comb.otraCartaNumero || ''}</div>
+                                            <p>${comb.otraCarta}</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin: 15px 0; font-style: italic;">"${comb.interpretacion}"</p>
+                                    <p><strong>Posición:</strong> ${comb.posicion || 'N/A'}</p>
+                                    
+                                    <div class="expandible" style="margin-top: 15px;" onclick="event.stopPropagation(); this.classList.toggle('active')">
+                                        <div class="expandible-header" style="background: rgba(212, 175, 55, 0.1);">
+                                            <span>+ Información</span>
+                                            <span>▼</span>
+                                        </div>
+                                        <div class="expandible-content">
+                                            <div class="info-grid">
+                                                ${comb.tipo ? `<p><strong>Tipo:</strong> ${comb.tipo}</p>` : ''}
+                                                ${comb.comb_proximo_paso ? `<p><strong>Próximo paso:</strong> ${comb.comb_proximo_paso}</p>` : ''}
+                                                ${comb.comb_alerta ? `<p><strong>Alerta:</strong> ${comb.comb_alerta}</p>` : ''}
+                                                ${comb.comb_si_no ? `<p><strong>Sí/No:</strong> ${comb.comb_si_no}</p>` : ''}
+                                                ${comb.combi_momento ? `<p><strong>Momento:</strong> ${comb.combi_momento}</p>` : ''}
+                                                ${comb.combi_habilidad ? `<p><strong>Habilidad:</strong> ${comb.combi_habilidad}</p>` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             `;
                         });
-                        
                         html += `</div></div>`;
                     }
-                    
-                    html += `</div>`; // Cierre carta-resultado
+                    html += `</div>`;
                 }
-                
                 container.innerHTML = html;
-                
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
                 console.error(error);
             }
         }
 
-        // BUSCAR COMBINACIONES ENTRE CARTAS
         function buscarCombinaciones(cartaActual, indexActual) {
             const combinaciones = [];
-            
-            // Buscar combinaciones con otras cartas seleccionadas
             for (let i = 0; i < cartasSeleccionadas.length; i++) {
                 if (i === indexActual) continue;
-                
                 const otraCarta = todasLasCartas[cartasSeleccionadas[i].cartaIndex];
                 const comb = todasLasCombinaciones.find(c => 
                     (c.arcano1 === cartaActual.arcano_es && c.arcano2 === otraCarta.arcano_es) ||
                     (c.arcano1 === otraCarta.arcano_es && c.arcano2 === cartaActual.arcano_es)
                 );
-                
                 if (comb) {
                     combinaciones.push({
                         otraCarta: otraCarta.arcano_es,
+                        otraCartaNumero: otraCarta.numero,
                         interpretacion: comb.interpretacion,
                         posicion: comb.posicion,
                         tipo: comb.tipo,
                         comb_proximo_paso: comb.comb_proximo_paso,
                         comb_alerta: comb.comb_alerta,
-                        comb_si_no: comb.comb_si_no
+                        comb_si_no: comb.comb_si_no,
+                        combi_momento: comb.combi_momento,
+                        combi_habilidad: comb.combi_habilidad
                     });
                 }
             }
-            
             return combinaciones;
         }
 
-        // OBTENER CAMPO DE TEMA
         function obtenerCampoTema(tema, posicion) {
             const mapaTemas = {
                 'AMOR': 'amor',
@@ -549,30 +768,44 @@
                 'DINERO': 'dinero',
                 'SALUD': 'salud',
                 'PREGUNTAS SÍ/NO': 'interpretacion_si_no',
+                'PREGUNTAS SI/NO': 'interpretacion_si_no',
                 'ENERGÍA DEL DÍA': 'energia_dia',
+                'ENERGIA DEL DIA': 'energia_dia',
                 'DECISIONES Y ELECCIONES': 'decisiones_elecciones',
                 'ESPIRITUALIDAD Y CRECIMIENTO': 'espiritualidad_crecimiento',
                 'PROYECTOS Y CREATIVIDAD': 'proyectos_creatividad',
                 'VIAJES Y MUDANZAS': 'viajes_mudanzas',
                 'FAMILIA Y HOGAR': 'familia_hogar',
-                'PASADO-PRESENTE-FUTURO': 'pasado',
                 'LECTURAS GENERALES': 'gen',
-                'RELACIONES & AUTOCONOCIMIENTO': 'rel_auto'
+                'RELACIONES & AUTOCONOCIMIENTO': 'rel_auto',
+                'RELACIONES Y AUTOCONOCIMIENTO': 'rel_auto',
+                'PRESENTE': 'presente',
+                'PASADO-PRESENTE-FUTURO': 'pasado'
             };
             
-            const base = mapaTemas[tema] || 'gen';
-            return `${base}_${posicion}`;
+            const temaNormalizado = tema.toUpperCase().trim();
+            const base = mapaTemas[temaNormalizado];
+            
+            if (!base) {
+                console.warn('Tema no encontrado:', tema, '→ usando gen como fallback');
+                return `gen_${posicion === 'recta' ? 'recta' : 'inv'}`;
+            }
+            
+            // PASADO, PRESENTE y FUTURO usan "_invertida" (no "_inv")
+            if (base === 'pasado' || base === 'presente' || base === 'futuro') {
+                return `${base}_${posicion === 'recta' ? 'recta' : 'invertida'}`;
+            }
+            
+            // Los demás temas usan "_inv"
+            return `${base}_${posicion === 'recta' ? 'recta' : 'inv'}`;
         }
 
-        // CARGAR ARCANOS (con foto, número, nombre)
         async function cargarArcanos() {
             const container = document.getElementById('lista-arcanos');
             container.innerHTML = '<div class="loading">Cargando...</div>';
-            
             try {
                 const data = await fetchNeon('/cartas');
                 todasLasCartas = data;
-                
                 container.innerHTML = data.map((c, index) => `
                     <div class="arcano-item" onclick="verArcano(${index})">
                         <div class="arcano-img">FOTO<br>${c.numero || ''}</div>
@@ -587,66 +820,64 @@
             }
         }
 
-        // VER ARCANO (ficha completa)
         async function verArcano(index) {
             const container = document.getElementById('info-arcano');
             container.innerHTML = '<div class="loading">Cargando...</div>';
             showPage('ficha-arcano');
-            
             try {
                 const c = todasLasCartas[index];
-                
                 container.innerHTML = `
                     <div class="carta-resultado">
                         <div class="carta-img">FOTO<br>${c.numero || ''}<br>${c.arcano_es}</div>
                         <h2 style="color: #d4af37;">${c.numero || ''} ${c.arcano_es}</h2>
                         <p><strong>Tipo:</strong> ${c.tipo || 'N/A'}</p>
                     </div>
-                    
                     <div class="expandible active">
                         <div class="expandible-header">
                             <span>📋 Ficha Técnica</span>
                             <span>▼</span>
                         </div>
                         <div class="expandible-content">
-                            <p><strong>Características:</strong> ${c.caracteristicas || 'N/A'}</p>
-                            <p><strong>Signo:</strong> ${c.signo || 'N/A'}</p>
-                            <p><strong>Elemento:</strong> ${c.elemento || 'N/A'}</p>
-                            <p><strong>Planeta:</strong> ${c.planeta || 'N/A'}</p>
-                            <p><strong>Números:</strong> ${c.numeros || 'N/A'}</p>
-                            <p><strong>Chakra:</strong> ${c.chakra || 'N/A'}</p>
-                            <p><strong>Mantra:</strong> ${c.mantra || 'N/A'}</p>
-                            <p><strong>Piedras/Cristales:</strong> ${c.piedras_cristales || 'N/A'}</p>
-                            <p><strong>Esencia/Incienso:</strong> ${c.esencia_incienso || 'N/A'}</p>
-                            <p><strong>Aceites/Hierbas:</strong> ${c.aceites_hierbas || 'N/A'}</p>
-                            <p><strong>Cábala:</strong> ${c.cabala || 'N/A'}</p>
-                            <p><strong>Color:</strong> ${c.color || 'N/A'}</p>
-                            <p><strong>Planta:</strong> ${c.planta || 'N/A'}</p>
+                            <div class="info-grid">
+                                <p><strong>Características:</strong> ${c.caracteristicas || 'N/A'}</p>
+                                <p><strong>Signo:</strong> ${c.signo || 'N/A'}</p>
+                                <p><strong>Elemento:</strong> ${c.elemento || 'N/A'}</p>
+                                <p><strong>Planeta:</strong> ${c.planeta || 'N/A'}</p>
+                                <p><strong>Números:</strong> ${c.numeros || 'N/A'}</p>
+                                <p><strong>Chakra:</strong> ${c.chakra || 'N/A'}</p>
+                                <p><strong>Mantra:</strong> ${c.mantra || 'N/A'}</p>
+                                <p><strong>Piedras/Cristales:</strong> ${c.piedras_cristales || 'N/A'}</p>
+                                <p><strong>Esencia/Incienso:</strong> ${c.esencia_incienso || 'N/A'}</p>
+                                <p><strong>Aceites/Hierbas:</strong> ${c.aceites_hierbas || 'N/A'}</p>
+                                <p><strong>Cábala:</strong> ${c.cabala || 'N/A'}</p>
+                                <p><strong>Color:</strong> ${c.color || 'N/A'}</p>
+                                <p><strong>Planta:</strong> ${c.planta || 'N/A'}</p>
+                            </div>
                         </div>
                     </div>
-                    
                     <div class="expandible active">
                         <div class="expandible-header">
                             <span>🔮 Significados</span>
                             <span>▼</span>
                         </div>
                         <div class="expandible-content">
-                            <p><strong>Recta:</strong> ${c.palabras_clave_recta || 'N/A'}</p>
-                            <p><strong>Invertida:</strong> ${c.palabras_clave_inv || 'N/A'}</p>
-                            <hr style="margin: 10px 0; border-color: #d4af37;">
-                            <p><strong>Personalidad Recta:</strong> ${c.aspectos_personalidad_recta || 'N/A'}</p>
-                            <p><strong>Personalidad Inv:</strong> ${c.aspectos_personalidad_inv || 'N/A'}</p>
-                            <hr style="margin: 10px 0; border-color: #d4af37;">
-                            <p><strong>Meditación Recta:</strong> ${c.recomendaciones_meditacion || 'N/A'}</p>
-                            <p><strong>Meditación Inv:</strong> ${c.recomendaciones_meditacion_inv || 'N/A'}</p>
-                            <hr style="margin: 10px 0; border-color: #d4af37;">
-                            <p><strong>Actividades Recta:</strong> ${c.actividades_sugeridas || 'N/A'}</p>
-                            <p><strong>Actividades Inv:</strong> ${c.actividades_sugeridas_inv || 'N/A'}</p>
+                            <div class="info-grid">
+                                <p><strong>Recta:</strong> ${c.palabras_clave_recta || 'N/A'}</p>
+                                <p><strong>Invertida:</strong> ${c.palabras_clave_inv || 'N/A'}</p>
+                                <hr>
+                                <p><strong>Personalidad Recta:</strong> ${c.aspectos_personalidad_recta || 'N/A'}</p>
+                                <p><strong>Personalidad Inv:</strong> ${c.aspectos_personalidad_inv || 'N/A'}</p>
+                                <hr>
+                                <p><strong>Meditación Recta:</strong> ${c.recomendaciones_meditacion || 'N/A'}</p>
+                                <p><strong>Meditación Inv:</strong> ${c.recomendaciones_meditacion_inv || 'N/A'}</p>
+                                <hr>
+                                <p><strong>Actividades Recta:</strong> ${c.actividades_sugeridas || 'N/A'}</p>
+                                <p><strong>Actividades Inv:</strong> ${c.actividades_sugeridas_inv || 'N/A'}</p>
+                            </div>
                         </div>
                     </div>
                 `;
                 
-                // Cargar combinaciones si existen
                 const combinaciones = todasLasCombinaciones.filter(comb => 
                     comb.arcano1 === c.arcano_es || comb.arcano2 === c.arcano_es
                 );
@@ -660,7 +891,6 @@
                             </div>
                             <div class="expandible-content">
                     `;
-                    
                     combinaciones.forEach(comb => {
                         const otraCarta = comb.arcano1 === c.arcano_es ? comb.arcano2 : comb.arcano1;
                         container.innerHTML += `
@@ -671,44 +901,35 @@
                             </div>
                         `;
                     });
-                    
                     container.innerHTML += '</div></div>';
                 }
-                
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
 
-        // CARGAR TODAS LAS TIRADAS PARA LECTURAS (atajo)
         async function cargarTodasTiradasLecturas() {
             const container = document.getElementById('resultados-busqueda');
             container.innerHTML = '<div class="loading">Cargando...</div>';
-            
             try {
                 const data = await fetchNeon('/tiradas');
                 todasLasTiradas = data;
-                
                 mostrarResultadosLecturas(data);
                 
-                // Configurar búsqueda por nombre
                 document.getElementById('buscar-nombre').addEventListener('input', (e) => {
-                    const busqueda = e.target.value.toLowerCase();
-                    const resultados = data.filter(t => 
-                        t.nombre_tirada.toLowerCase().includes(busqueda)
-                    );
-                    mostrarResultadosLecturas(resultados);
+                    filtrarTiradas();
                 });
                 
-                // Configurar búsqueda por número
                 document.getElementById('buscar-numero').addEventListener('input', (e) => {
-                    const num = parseInt(e.target.value);
-                    if (isNaN(num)) {
-                        mostrarResultadosLecturas(data);
-                        return;
-                    }
-                    const resultados = data.filter((t, index) => index + 1 === num);
-                    mostrarResultadosLecturas(resultados);
+                    filtrarTiradas();
+                });
+                
+                document.getElementById('buscar-cartas').addEventListener('input', (e) => {
+                    filtrarTiradas();
+                });
+                
+                document.getElementById('buscar-tema').addEventListener('input', (e) => {
+                    filtrarTiradas();
                 });
                 
             } catch (error) {
@@ -716,10 +937,41 @@
             }
         }
 
-        // MOSTRAR RESULTADOS EN LECTURAS
+        function filtrarTiradas() {
+            const busquedaNombre = document.getElementById('buscar-nombre').value.toLowerCase();
+            const busquedaNumero = document.getElementById('buscar-numero').value;
+            const busquedaCartas = document.getElementById('buscar-cartas').value;
+            const busquedaTema = document.getElementById('buscar-tema').value.toLowerCase();
+            
+            let resultados = todasLasTiradas;
+            
+            if (busquedaNombre) {
+                resultados = resultados.filter(t => t.nombre_tirada.toLowerCase().includes(busquedaNombre));
+            }
+            
+            if (busquedaNumero) {
+                const num = parseInt(busquedaNumero);
+                if (!isNaN(num)) {
+                    resultados = resultados.filter((t, index) => index + 1 === num);
+                }
+            }
+            
+            if (busquedaCartas) {
+                const numCartas = parseInt(busquedaCartas);
+                if (!isNaN(numCartas)) {
+                    resultados = resultados.filter(t => t.num_cartas === numCartas);
+                }
+            }
+            
+            if (busquedaTema) {
+                resultados = resultados.filter(t => t.tema.toLowerCase().includes(busquedaTema));
+            }
+            
+            mostrarResultadosLecturas(resultados);
+        }
+
         function mostrarResultadosLecturas(resultados) {
             const container = document.getElementById('resultados-busqueda');
-            
             if (resultados.length === 0) {
                 container.innerHTML = '<div class="error">No se encontraron tiradas</div>';
                 return;
@@ -729,14 +981,13 @@
                 const numReal = todasLasTiradas.indexOf(t) + 1;
                 return `
                     <div class="tirada-item" onclick="seleccionarTiradaLectura(${numReal - 1})">
-                        <h3>${numReal} - ${t.nombre_tirada}</h3>
-                        <p>${t.tema} | ${t.num_cartas} cartas | ${t.intencion || 'Sin descripción'}</p>
+                        <h3>${numReal} - ${t.nombre_tirada} <span class="num-cartas-badge">${t.num_cartas} cartas</span></h3>
+                        <p>${t.tema} | ${t['intención'] || t.intencion || 'Sin descripción'}</p>
                     </div>
                 `;
             }).join('');
         }
 
-        // SELECCIONAR TIRADA DESDE LECTURAS (atajo directo a indicar cartas)
         function seleccionarTiradaLectura(index) {
             tiradaActual = todasLasTiradas[index];
             prepararIndicarCartas();
