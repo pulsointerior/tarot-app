@@ -23,7 +23,7 @@
         h1 {
             text-align: center;
             color: #d4af37;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 2em;
         }
         
@@ -31,6 +31,7 @@
             color: #d4af37;
             margin-bottom: 20px;
             font-size: 1.5em;
+            text-align: center;
         }
         
         h3 {
@@ -43,29 +44,96 @@
             margin-bottom: 10px;
         }
         
-        .menu-btn {
-            display: block;
-            width: 100%;
-            padding: 20px;
-            margin: 15px 0;
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        /* === HOME - SELECCIÓN DE MODO === */
+        .modo-seleccion {
+            margin: 20px 0;
+            padding: 25px;
             background: rgba(212, 175, 55, 0.1);
             border: 2px solid #d4af37;
-            color: #d4af37;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 1.2em;
+            border-radius: 15px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
         
-        .menu-btn:hover {
+        .modo-seleccion:hover {
             background: rgba(212, 175, 55, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
         }
         
-        .page { display: none; }
-        .page.active { display: block; }
+        .modo-icono {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
         
+        .modo-titulo {
+            color: #d4af37;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .modo-desc {
+            color: #ccc;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        
+        .modo-separador {
+            text-align: center;
+            margin: 20px 0;
+            color: #d4af37;
+            font-size: 1.2em;
+        }
+        
+        /* === SELECTOR DE MAZO === */
+        .mazo-selector {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .mazo-label {
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .mazo-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .mazo-option {
+            padding: 10px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #d4af37;
+        }
+        
+        .mazo-option:hover, .mazo-option.selected {
+            background: rgba(212, 175, 55, 0.3);
+            color: #fff;
+        }
+        
+        /* === BOTONES Y NAVEGACIÓN === */
         .back-btn {
             display: inline-block;
             margin-bottom: 20px;
@@ -78,8 +146,41 @@
             text-decoration: underline;
         }
         
+        .bottom-back {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .bottom-back .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            margin-bottom: 0;
+        }
+        
+        button {
+            padding: 15px;
+            background: #d4af37;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #e5c048;
+            transform: translateY(-2px);
+        }
+        
+        /* === CARDS Y LISTADOS === */
         .tema-card, .tirada-item, .arcano-item {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             padding: 20px;
             margin: 15px 0;
             border-radius: 10px;
@@ -89,7 +190,7 @@
         }
         
         .tema-card:hover, .tirada-item:hover, .arcano-item:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             border-color: #d4af37;
             transform: translateX(5px);
         }
@@ -100,7 +201,7 @@
             gap: 15px;
         }
         
-        .arcano-img {
+        .arcano-img, .carta-img {
             width: 60px;
             height: 90px;
             background: #d4af37;
@@ -112,6 +213,13 @@
             color: #1a1a2e;
             font-weight: bold;
             text-align: center;
+        }
+        
+        .carta-img {
+            width: 120px;
+            height: 180px;
+            margin: 0 auto 20px;
+            font-size: 0.9em;
         }
         
         .loading { 
@@ -128,21 +236,23 @@
             font-size: 1.1em;
         }
         
+        /* === BUSCADORES === */
         .search-box {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
             border: 2px solid #d4af37;
             border-radius: 8px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: #fff;
             font-size: 1em;
         }
         
         .search-box::placeholder {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
         }
         
+        /* === EXPANDIBLES === */
         .expandible {
             background: rgba(212, 175, 55, 0.1);
             border: 1px solid #d4af37;
@@ -174,30 +284,17 @@
             display: block;
         }
         
+        /* === RESULTADO === */
         .carta-resultado {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 25px;
             margin: 20px 0;
             border-radius: 10px;
             text-align: center;
         }
         
-        .carta-img {
-            width: 120px;
-            height: 180px;
-            background: #d4af37;
-            margin: 0 auto 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1a1a2e;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
         .combinacion-item {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
             margin: 15px 0;
             border-radius: 8px;
@@ -238,6 +335,7 @@
             display: grid;
             gap: 12px;
             margin: 15px 0;
+            text-align: left;
         }
         
         .info-grid p {
@@ -253,52 +351,11 @@
             color: #d4af37;
         }
         
-        select {
-            padding: 12px;
-            margin: 5px;
-            background: #1a1a2e;
-            color: #fff;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-        
-        button {
-            padding: 15px;
-            background: #d4af37;
-            color: #1a1a2e;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            width: 100%;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            background: #e5c048;
-            transform: translateY(-2px);
-        }
-        
-        .bottom-back {
-            margin-top: 30px;
-            text-align: center;
-        }
-        
-        .bottom-back .back-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            margin-bottom: 0;
-        }
-        
+        /* === SELECTORES MANUAL === */
         .selector-carta {
             margin: 20px 0;
             padding: 20px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.2);
         }
@@ -316,6 +373,15 @@
             gap: 10px;
         }
         
+        select {
+            padding: 12px;
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
         .selectores-row select:first-child {
             flex: 2;
         }
@@ -324,18 +390,89 @@
             flex: 1;
         }
         
-        hr {
-            margin: 20px 0;
-            border-color: #d4af37;
-            opacity: 0.3;
+        /* === ANIMACIÓN TIRADA AUTOMÁTICA === */
+        .tirada-animacion {
+            text-align: center;
+            padding: 40px 20px;
         }
         
-        .interpretacion-box {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(212, 175, 55, 0.1);
+        .mazo-virtual {
+            width: 150px;
+            height: 250px;
+            background: linear-gradient(135deg, #d4af37 0%, #8b6914 100%);
             border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        @keyframes mezclar {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-30px) rotate(-10deg); }
+            50% { transform: translateX(30px) rotate(10deg); }
+            75% { transform: translateX(-15px) rotate(-5deg); }
+        }
+        
+        .mezclando {
+            animation: mezclar 0.6s ease-in-out infinite;
+        }
+        
+        .carta-revelada {
+            animation: aparecer 0.8s ease-out;
+        }
+        
+        @keyframes aparecer {
+            0% { transform: rotateY(90deg) scale(0.8); opacity: 0; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+        
+        .progreso-tirada {
+            width: 100%;
+            height: 6px;
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progreso-barra {
+            height: 100%;
+            background: #d4af37;
+            transition: width 0.5s ease;
+        }
+        
+        .cartas-reveladas-preview {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .carta-mini {
+            width: 50px;
+            height: 80px;
+            background: #d4af37;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            color: #1a1a2e;
+        }
+        
+        .carta-mini.revelada {
+            background: #fff;
+            border: 2px solid #d4af37;
+        }
+        
+        .carta-mini.pendiente {
+            background: rgba(212, 175, 55, 0.3);
+            border: 2px dashed #d4af37;
         }
         
         .num-cartas-badge {
@@ -348,130 +485,380 @@
             margin-left: 10px;
             border: 1px solid #d4af37;
         }
+        
+        .interpretacion-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: left;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border-color: #d4af37;
+            opacity: 0.3;
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- PÁGINA 1: HOME -->
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- PÁGINA 1: HOME - SELECCIÓN DE MODO Y MAZO -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
         <div id="home" class="page active">
             <h1>✨ Tarot ✨</h1>
-            <a href="#" class="menu-btn" onclick="showPage('temas'); return false;">🔮 Explorar Tiradas</a>
-            <a href="#" class="menu-btn" onclick="showPage('arcanos'); return false;">🃏 Los Arcanos</a>
-            <a href="#" class="menu-btn" onclick="showPage('lecturas'); return false;">📖 Lecturas</a>
+            <p class="subtitle">Bienvenido a tu consulta de Tarot</p>
+            
+            <!-- SELECTOR DE MAZO -->
+            <div class="mazo-selector">
+                <span class="mazo-label">🎨 Selecciona tu mazo:</span>
+                <div class="mazo-options">
+                    <div class="mazo-option selected" onclick="seleccionarMazo('nicolas-conver')" id="mazo-nicolas-conver">
+                        Nicolas Conver
+                    </div>
+                    <div class="mazo-option" onclick="seleccionarMazo('rider-waite')" id="mazo-rider-waite">
+                        Rider-Waite
+                    </div>
+                    <div class="mazo-option" onclick="seleccionarMazo('marsella')" id="mazo-marsella">
+                        Marsella
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MODO AUTOMÁTICO -->
+            <div class="modo-seleccion" onclick="iniciarModoAutomatico()">
+                <div class="modo-icono">🎲</div>
+                <div class="modo-titulo">Tirada Automática</div>
+                <div class="modo-desc">
+                    No tengo mazo físico.<br>
+                    La web saca y revela las cartas por ti.
+                </div>
+            </div>
+            
+            <div class="modo-separador">○</div>
+            
+            <!-- MODO MANUAL -->
+            <div class="modo-seleccion" onclick="iniciarModoManual()">
+                <div class="modo-icono">🃏</div>
+                <div class="modo-titulo">Modo Manual</div>
+                <div class="modo-desc">
+                    Tengo mi propio mazo.<br>
+                    Sacas las cartas físicamente y las indicas aquí.
+                </div>
+            </div>
         </div>
-
-        <!-- PÁGINA 2: TEMAS -->
-        <div id="temas" class="page">
-            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
-            <h1>Selecciona un Tema</h1>
-            <div id="lista-temas"></div>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- SUB-MENÚ: OPCIONES COMUNES (APARECE DESPUÉS DE ELEGIR MODO) -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <!-- MENÚ MODO AUTOMÁTICO -->
+        <div id="menu-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
+            <h2>🎲 Modo Automático</h2>
+            <p class="subtitle">¿Qué deseas hacer?</p>
+            
+            <div class="modo-seleccion" onclick="showPage('temas-auto')">
+                <div class="modo-icono">🔮</div>
+                <div class="modo-titulo">Explorar Tiradas</div>
+                <div class="modo-desc">Navega por temas y elige tu tirada</div>
+            </div>
+            
+            <div class="modo-seleccion" onclick="showPage('arcanos')">
+                <div class="modo-icono">📚</div>
+                <div class="modo-titulo">Explorar Arcanos</div>
+                <div class="modo-desc">Consulta el significado de todas las cartas</div>
+            </div>
+            
+            <div class="modo-seleccion" onclick="showPage('menu-tiradas-auto')">
+                <div class="modo-icono">📋</div>
+                <div class="modo-titulo">Menú de Tiradas</div>
+                <div class="modo-desc">Buscador rápido de tiradas</div>
+            </div>
+            
             <div class="bottom-back">
                 <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
             </div>
         </div>
-
-        <!-- PÁGINA 3: LISTADO TIRADAS -->
-        <div id="listado-tiradas" class="page">
-            <a href="#" class="back-btn" onclick="showPage('temas'); return false;">← Volver</a>
-            <h1 id="titulo-tema">Tiradas</h1>
-            <div id="lista-tiradas"></div>
+        
+        <!-- MENÚ MODO MANUAL -->
+        <div id="menu-manual" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
+            <h2>🃏 Modo Manual</h2>
+            <p class="subtitle">¿Qué deseas hacer?</p>
+            
+            <div class="modo-seleccion" onclick="showPage('temas-manual')">
+                <div class="modo-icono">🔮</div>
+                <div class="modo-titulo">Explorar Tiradas</div>
+                <div class="modo-desc">Navega por temas y elige tu tirada</div>
+            </div>
+            
+            <div class="modo-seleccion" onclick="showPage('arcanos')">
+                <div class="modo-icono">📚</div>
+                <div class="modo-titulo">Explorar Arcanos</div>
+                <div class="modo-desc">Consulta el significado de todas las cartas</div>
+            </div>
+            
+            <div class="modo-seleccion" onclick="showPage('menu-tiradas-manual')">
+                <div class="modo-icono">📋</div>
+                <div class="modo-titulo">Menú de Tiradas</div>
+                <div class="modo-desc">Buscador rápido de tiradas</div>
+            </div>
+            
             <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('temas'); return false;">← Volver a Temas</a>
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
             </div>
         </div>
-
-        <!-- PÁGINA 4: DETALLE TIRADA -->
-        <div id="detalle-tirada" class="page">
-            <a href="#" class="back-btn" onclick="showPage('listado-tiradas'); return false;">← Volver</a>
-            <h1>Detalle de la Tirada</h1>
-            <div id="info-tirada"></div>
-            <button onclick="escogerTirada()">Escoger esta tirada</button>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- MODO AUTOMÁTICO - FLUJO COMPLETO -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <!-- Selección de Tema (Auto) -->
+        <div id="temas-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('menu-auto'); return false;">← Volver</a>
+            <h2>🎲 Tirada Automática</h2>
+            <p class="subtitle">Selecciona un tema para tu consulta</p>
+            <div id="lista-temas-auto"></div>
             <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('listado-tiradas'); return false;">← Volver a Tiradas</a>
+                <a href="#" class="back-btn" onclick="showPage('menu-auto'); return false;">← Volver al Menú</a>
             </div>
         </div>
-
-        <!-- PÁGINA 5: INDICAR CARTAS -->
+        
+        <!-- Listado de Tiradas (Auto) -->
+        <div id="listado-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('temas-auto'); return false;">← Volver</a>
+            <h2 id="titulo-tema-auto">Tiradas</h2>
+            <div id="lista-tiradas-auto"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('temas-auto'); return false;">← Volver a Temas</a>
+            </div>
+        </div>
+        
+        <!-- Detalle de Tirada (Auto) -->
+        <div id="detalle-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('listado-auto'); return false;">← Volver</a>
+            <h2>Detalle de la Tirada</h2>
+            <div id="info-tirada-auto"></div>
+            <button onclick="iniciarAnimacionTirada()">🎲 Realizar Tirada Automática</button>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('listado-auto'); return false;">← Volver a Tiradas</a>
+            </div>
+        </div>
+        
+        <!-- Animación de Tirada (Auto) -->
+        <div id="animacion-tirada" class="page">
+            <h2>Tu Tirada en Progreso</h2>
+            <div class="tirada-animacion">
+                <div id="mazo-animacion" class="mazo-virtual mezclando">🃏</div>
+                <p id="texto-animacion">Mezclando el mazo...</p>
+                <div class="progreso-tirada">
+                    <div id="barra-progreso" class="progreso-barra" style="width: 0%"></div>
+                </div>
+                <div id="cartas-preview" class="cartas-reveladas-preview"></div>
+                <button id="btn-ver-resultado" onclick="mostrarResultadoAutomatico()" style="display: none;">
+                    ✨ Ver Interpretación Completa
+                </button>
+            </div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('detalle-auto'); return false;">← Cancelar</a>
+            </div>
+        </div>
+        
+        <!-- Resultado (Auto) -->
+        <div id="resultado-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
+            <h2>Tu Lectura</h2>
+            <h3 id="titulo-resultado-auto" style="color: #d4af37; text-align: center; margin-bottom: 20px;"></h3>
+            <div id="resultado-content-auto"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Nueva Consulta</a>
+            </div>
+        </div>
+        
+        <!-- Menú de Tiradas / Buscador (Auto) -->
+        <div id="menu-tiradas-auto" class="page">
+            <a href="#" class="back-btn" onclick="showPage('menu-auto'); return false;">← Volver</a>
+            <h2>📋 Menú de Tiradas</h2>
+            <p class="subtitle">Atajo directo - Busca tu tirada</p>
+            <input type="text" id="buscar-numero-auto" class="search-box" placeholder="Buscar por número...">
+            <input type="text" id="buscar-nombre-auto" class="search-box" placeholder="Buscar por nombre...">
+            <input type="text" id="buscar-cartas-auto" class="search-box" placeholder="Buscar por número de cartas...">
+            <input type="text" id="buscar-tema-auto" class="search-box" placeholder="Buscar por tema...">
+            <div id="resultados-busqueda-auto"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('menu-auto'); return false;">← Volver al Menú</a>
+            </div>
+        </div>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- MODO MANUAL - FLUJO COMPLETO -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <!-- Selección de Tema (Manual) -->
+        <div id="temas-manual" class="page">
+            <a href="#" class="back-btn" onclick="showPage('menu-manual'); return false;">← Volver</a>
+            <h2>🃏 Modo Manual</h2>
+            <p class="subtitle">Selecciona un tema para tu consulta</p>
+            <div id="lista-temas-manual"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('menu-manual'); return false;">← Volver al Menú</a>
+            </div>
+        </div>
+        
+        <!-- Listado de Tiradas (Manual) -->
+        <div id="listado-manual" class="page">
+            <a href="#" class="back-btn" onclick="showPage('temas-manual'); return false;">← Volver</a>
+            <h2 id="titulo-tema-manual">Tiradas</h2>
+            <div id="lista-tiradas-manual"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('temas-manual'); return false;">← Volver a Temas</a>
+            </div>
+        </div>
+        
+        <!-- Detalle de Tirada (Manual) -->
+        <div id="detalle-manual" class="page">
+            <a href="#" class="back-btn" onclick="showPage('listado-manual'); return false;">← Volver</a>
+            <h2>Detalle de la Tirada</h2>
+            <div id="info-tirada-manual"></div>
+            <button onclick="prepararIndicarCartas()">🃏 Seleccionar Cartas Manualmente</button>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('listado-manual'); return false;">← Volver a Tiradas</a>
+            </div>
+        </div>
+        
+        <!-- Indicar Cartas (Manual) -->
         <div id="indicar-cartas" class="page">
-            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
-            <h1 id="titulo-indicar">Indica tus Cartas</h1>
-            <h2 id="subtitulo-indicar" style="color: #d4af37; text-align: center; margin-bottom: 20px; font-size: 1.1em;"></h2>
-            <p style="margin-bottom: 20px;">Saca las cartas físicamente e indícalas aquí:</p>
+            <a href="#" class="back-btn" onclick="showPage('detalle-manual'); return false;">← Volver</a>
+            <h2>Indica tus Cartas</h2>
+            <h3 id="subtitulo-indicar" style="color: #d4af37; text-align: center; margin-bottom: 20px; font-size: 1.1em;"></h3>
+            <p style="margin-bottom: 20px;">Saca las cartas físicamente de tu mazo e indícalas aquí:</p>
             <div id="selectores-cartas"></div>
-            <button onclick="verResultado()">Ver Resultado</button>
+            <button onclick="verResultadoManual()">✨ Ver Resultado</button>
             <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+                <a href="#" class="back-btn" onclick="showPage('detalle-manual'); return false;">← Volver</a>
             </div>
         </div>
-
-        <!-- PÁGINA 6: RESULTADO -->
-        <div id="resultado" class="page">
+        
+        <!-- Resultado (Manual) -->
+        <div id="resultado-manual" class="page">
             <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Inicio</a>
-            <h1>Tu Lectura</h1>
-            <h2 id="titulo-resultado-tirada" style="color: #d4af37; text-align: center; margin-bottom: 20px;"></h2>
-            <div id="resultado-content"></div>
+            <h2>Tu Lectura</h2>
+            <h3 id="titulo-resultado-manual" style="color: #d4af37; text-align: center; margin-bottom: 20px;"></h3>
+            <div id="resultado-content-manual"></div>
             <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Nueva Consulta</a>
             </div>
         </div>
-
-        <!-- PÁGINA 7: ARCANOS -->
+        
+        <!-- Menú de Tiradas / Buscador (Manual) -->
+        <div id="menu-tiradas-manual" class="page">
+            <a href="#" class="back-btn" onclick="showPage('menu-manual'); return false;">← Volver</a>
+            <h2>📋 Menú de Tiradas</h2>
+            <p class="subtitle">Atajo directo - Busca tu tirada</p>
+            <input type="text" id="buscar-numero-manual" class="search-box" placeholder="Buscar por número...">
+            <input type="text" id="buscar-nombre-manual" class="search-box" placeholder="Buscar por nombre...">
+            <input type="text" id="buscar-cartas-manual" class="search-box" placeholder="Buscar por número de cartas...">
+            <input type="text" id="buscar-tema-manual" class="search-box" placeholder="Buscar por tema...">
+            <div id="resultados-busqueda-manual"></div>
+            <div class="bottom-back">
+                <a href="#" class="back-btn" onclick="showPage('menu-manual'); return false;">← Volver al Menú</a>
+            </div>
+        </div>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- ARCANOS (COMÚN A AMBOS MODOS) -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
         <div id="arcanos" class="page">
-            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
-            <h1>Los Arcanos</h1>
+            <a href="#" class="back-btn" onclick="volverDesdeArcanos(); return false;">← Volver</a>
+            <h2>📚 Los Arcanos</h2>
             <div id="lista-arcanos"></div>
             <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
+                <a href="#" class="back-btn" onclick="volverDesdeArcanos(); return false;">← Volver</a>
             </div>
         </div>
-
-        <!-- PÁGINA 8: FICHA ARCANO -->
+        
         <div id="ficha-arcano" class="page">
             <a href="#" class="back-btn" onclick="showPage('arcanos'); return false;">← Volver</a>
-            <h1>Ficha del Arcano</h1>
+            <h2>Ficha del Arcano</h2>
             <div id="info-arcano"></div>
             <div class="bottom-back">
                 <a href="#" class="back-btn" onclick="showPage('arcanos'); return false;">← Volver a Arcanos</a>
             </div>
         </div>
-
-        <!-- PÁGINA 9: LECTURAS -->
-        <div id="lecturas" class="page">
-            <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver</a>
-            <h1>📖 Lecturas</h1>
-            <p style="text-align: center; margin-bottom: 20px;">Atajo directo - Busca tu tirada</p>
-            <input type="text" id="buscar-numero" class="search-box" placeholder="Buscar por número...">
-            <input type="text" id="buscar-nombre" class="search-box" placeholder="Buscar por nombre...">
-            <input type="text" id="buscar-cartas" class="search-box" placeholder="Buscar por número de cartas...">
-            <input type="text" id="buscar-tema" class="search-box" placeholder="Buscar por tema...">
-            <div id="resultados-busqueda"></div>
-            <div class="bottom-back">
-                <a href="#" class="back-btn" onclick="showPage('home'); return false;">← Volver al Inicio</a>
-            </div>
-        </div>
+        
     </div>
 
     <script>
+        // ═════════════════════════════════════════════════════════════════
+        // VARIABLES GLOBALES
+        // ═════════════════════════════════════════════════════════════════
+        let modoActual = null; // 'auto' o 'manual'
+        let mazoActual = 'nicolas-conver'; // Por defecto
         let tiradaActual = null;
         let cartasSeleccionadas = [];
         let todasLasTiradas = [];
         let todasLasCartas = [];
         let todasLasPosiciones = [];
         let todasLasCombinaciones = [];
-
+        
+        // ═════════════════════════════════════════════════════════════════
+        // NAVEGACIÓN Y UTILIDADES
+        // ═════════════════════════════════════════════════════════════════
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            if (pageId === 'temas') cargarTemas();
+            
+            // Cargar datos según página
+            if (pageId === 'temas-auto') cargarTemas('auto');
+            if (pageId === 'temas-manual') cargarTemas('manual');
             if (pageId === 'arcanos') cargarArcanos();
-            if (pageId === 'lecturas') cargarTodasTiradasLecturas();
+            if (pageId === 'menu-tiradas-auto') cargarTodasTiradas('auto');
+            if (pageId === 'menu-tiradas-manual') cargarTodasTiradas('manual');
         }
-
+        
+        function volverDesdeArcanos() {
+            if (modoActual === 'auto') {
+                showPage('menu-auto');
+            } else if (modoActual === 'manual') {
+                showPage('menu-manual');
+            } else {
+                showPage('home');
+            }
+        }
+        
+        function seleccionarMazo(nombreMazo) {
+            mazoActual = nombreMazo;
+            document.querySelectorAll('.mazo-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('mazo-' + nombreMazo).classList.add('selected');
+        }
+        
+        function iniciarModoAutomatico() {
+            modoActual = 'auto';
+            showPage('menu-auto');
+        }
+        
+        function iniciarModoManual() {
+            modoActual = 'manual';
+            showPage('menu-manual');
+        }
+        
+        // ═════════════════════════════════════════════════════════════════
+        // CARGA DE DATOS
+        // ═════════════════════════════════════════════════════════════════
         async function fetchNeon(endpoint) {
             const tabla = endpoint.split('?')[0].replace('/', '');
             const response = await fetch(`./${tabla}.json`);
             if (!response.ok) throw new Error(`Error ${response.status}`);
             let data = await response.json();
+            
             if (endpoint.includes('?')) {
                 const params = endpoint.split('?')[1];
                 if (params.includes('eq.')) {
@@ -481,15 +868,20 @@
             }
             return data;
         }
-
-        async function cargarTemas() {
-            const container = document.getElementById('lista-temas');
-            container.innerHTML = '<div class="loading">Cargando...</div>';
+        
+        // ═════════════════════════════════════════════════════════════════
+        // TEMAS Y TIRADAS
+        // ═════════════════════════════════════════════════════════════════
+        async function cargarTemas(modo) {
+            const container = document.getElementById(`lista-temas-${modo}`);
+            container.innerHTML = '<div class="loading">Cargando temas...</div>';
+            
             try {
                 const data = await fetchNeon('/tiradas?select=tema');
                 const temas = [...new Set(data.map(t => t.tema))].sort();
+                
                 container.innerHTML = temas.map(tema => `
-                    <div class="tema-card" onclick="cargarTiradasPorTema('${tema.replace(/'/g, "\\'")}')">
+                    <div class="tema-card" onclick="cargarTiradasPorTema('${tema.replace(/'/g, "\\'")}', '${modo}')">
                         <h3>${tema}</h3>
                     </div>
                 `).join('');
@@ -497,17 +889,21 @@
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
-
-        async function cargarTiradasPorTema(tema) {
-            showPage('listado-tiradas');
-            document.getElementById('titulo-tema').textContent = tema;
-            const container = document.getElementById('lista-tiradas');
-            container.innerHTML = '<div class="loading">Cargando...</div>';
+        
+        async function cargarTiradasPorTema(tema, modo) {
+            const suffix = modo === 'auto' ? 'auto' : 'manual';
+            showPage(`listado-${suffix}`);
+            document.getElementById(`titulo-tema-${suffix}`).textContent = tema;
+            
+            const container = document.getElementById(`lista-tiradas-${suffix}`);
+            container.innerHTML = '<div class="loading">Cargando tiradas...</div>';
+            
             try {
                 const data = await fetchNeon(`/tiradas?tema=eq.${encodeURIComponent(tema)}`);
                 todasLasTiradas = data;
+                
                 container.innerHTML = data.map((t, index) => `
-                    <div class="tirada-item" onclick="verDetalleTirada(${index})">
+                    <div class="tirada-item" onclick="verDetalleTirada(${index}, '${modo}')">
                         <h3>${index + 1} - ${t.nombre_tirada} <span class="num-cartas-badge">${t.num_cartas} cartas</span></h3>
                         <p>${t['intención'] || t.intencion || 'Sin descripción'}</p>
                     </div>
@@ -516,62 +912,139 @@
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
-
-        function verDetalleTirada(index) {
+        
+        function verDetalleTirada(index, modo) {
             tiradaActual = todasLasTiradas[index];
-            const container = document.getElementById('info-tirada');
+            const suffix = modo === 'auto' ? 'auto' : 'manual';
+            
+            showPage(`detalle-${suffix}`);
+            const container = document.getElementById(`info-tirada-${suffix}`);
+            
             container.innerHTML = `
-                <h2 style="color: #d4af37; margin-bottom: 15px;">${index + 1} - ${tiradaActual.nombre_tirada}</h2>
-                <div class="info-grid">
-                    <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
-                    <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
-                    <p><strong>Intención:</strong> ${tiradaActual['intención'] || t.intencion || 'No especificado'}</p>
-                    <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
-                    <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
-                    <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
-                    <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso || 'No especificado'}</p>
+                <div class="carta-resultado" style="text-align: left;">
+                    <h3 style="color: #d4af37; margin-bottom: 15px; text-align: center;">${index + 1} - ${tiradaActual.nombre_tirada}</h3>
+                    <div class="info-grid">
+                        <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
+                        <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
+                        <p><strong>Intención:</strong> ${tiradaActual['intención'] || tiradaActual.intencion || 'No especificado'}</p>
+                        <p><strong>Tiempo de validez:</strong> ${tiradaActual.tiempo_validez || 'No especificado'}</p>
+                        <p><strong>Cuándo repetir:</strong> ${tiradaActual.cuando_repetir || 'No especificado'}</p>
+                        <p><strong>Orden de cartas:</strong> ${tiradaActual.orden_cartas || 'No especificado'}</p>
+                        <p><strong>Paso a paso:</strong> ${tiradaActual.paso_a_paso || 'No especificado'}</p>
+                    </div>
                 </div>
             `;
-            showPage('detalle-tirada');
         }
-
-        function escogerTirada() {
-            prepararIndicarCartas();
+        
+        // ═════════════════════════════════════════════════════════════════
+        // MODO AUTOMÁTICO - ANIMACIÓN Y TIRADA
+        // ═════════════════════════════════════════════════════════════════
+        function iniciarAnimacionTirada() {
+            showPage('animacion-tirada');
+            const totalCartas = tiradaActual.num_cartas;
+            const preview = document.getElementById('cartas-preview');
+            
+            // Crear preview de cartas vacías
+            preview.innerHTML = '';
+            for (let i = 0; i < totalCartas; i++) {
+                preview.innerHTML += `<div class="carta-mini pendiente" id="carta-mini-${i}">?</div>`;
+            }
+            
+            // Simular animación de mezcla
+            let progreso = 0;
+            const barra = document.getElementById('barra-progreso');
+            const texto = document.getElementById('texto-animacion');
+            
+            const intervalo = setInterval(() => {
+                progreso += 10;
+                barra.style.width = `${progreso}%`;
+                
+                if (progreso === 30) texto.textContent = 'Barajando...';
+                if (progreso === 60) texto.textContent = 'Cortando...';
+                if (progreso === 90) texto.textContent = 'Revelando cartas...';
+                
+                if (progreso >= 100) {
+                    clearInterval(intervalo);
+                    realizarTiradaAutomatica();
+                }
+            }, 200);
         }
-
+        
+        async function realizarTiradaAutomatica() {
+            const totalCartas = tiradaActual.num_cartas;
+            const indicesDisponibles = [...Array(78).keys()]; // 0-77 (asumiendo 78 cartas)
+            cartasSeleccionadas = [];
+            
+            // Seleccionar cartas aleatorias sin repetir
+            for (let i = 0; i < totalCartas; i++) {
+                const randomIndex = Math.floor(Math.random() * indicesDisponibles.length);
+                const cartaIndex = indicesDisponibles.splice(randomIndex, 1)[0];
+                const posicion = Math.random() > 0.5 ? 'recta' : 'invertida';
+                
+                cartasSeleccionadas.push({
+                    cartaIndex: cartaIndex,
+                    posicion: posicion,
+                    posicionTirada: `C${i + 1}`
+                });
+                
+                // Revelar visualmente una a una
+                await new Promise(r => setTimeout(r, 600));
+                const mini = document.getElementById(`carta-mini-${i}`);
+                mini.classList.remove('pendiente');
+                mini.classList.add('revelada');
+                mini.textContent = i + 1;
+            }
+            
+            // Mostrar botón de resultado
+            document.getElementById('texto-animacion').textContent = '¡Tirada completada!';
+            document.getElementById('mazo-animacion').classList.remove('mezclando');
+            document.getElementById('btn-ver-resultado').style.display = 'block';
+        }
+        
+        function mostrarResultadoAutomatico() {
+            mostrarResultado('auto');
+        }
+        
+        // ═════════════════════════════════════════════════════════════════
+        // MODO MANUAL - SELECCIÓN DE CARTAS
+        // ═════════════════════════════════════════════════════════════════
         function prepararIndicarCartas() {
-            document.getElementById('titulo-indicar').textContent = 'Indica tus Cartas';
+            showPage('indicar-cartas');
             document.getElementById('subtitulo-indicar').textContent = tiradaActual.nombre_tirada;
+            
             const container = document.getElementById('selectores-cartas');
             container.innerHTML = '';
             cartasSeleccionadas = [];
+            
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                 container.innerHTML += `
                     <div class="selector-carta">
-                        <label>Carta ${i} (C${i}):</label>
+                        <label>Carta ${i} (Posición C${i}):</label>
                         <div class="selectores-row">
                             <select id="carta-${i}">
                                 <option value="">Selecciona arcano...</option>
                             </select>
                             <select id="posicion-${i}">
-                                <option value="recta">Recta</option>
-                                <option value="invertida">Invertida</option>
+                                <option value="recta">Recta ⬆️</option>
+                                <option value="invertida">Invertida ⬇️</option>
                             </select>
                         </div>
                     </div>
                 `;
             }
+            
             cargarOpcionesCartas();
-            showPage('indicar-cartas');
         }
-
+        
         async function cargarOpcionesCartas() {
             try {
-                const data = await fetchNeon('/cartas');
-                todasLasCartas = data;
+                if (todasLasCartas.length === 0) {
+                    todasLasCartas = await fetchNeon('/cartas');
+                }
+                
                 for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                     const select = document.getElementById(`carta-${i}`);
-                    data.forEach((c, index) => {
+                    todasLasCartas.forEach((c, index) => {
                         const option = document.createElement('option');
                         option.value = index;
                         option.textContent = `${c.numero || ''} ${c.arcano_es}`;
@@ -582,93 +1055,77 @@
                 console.error('Error cargando cartas:', error);
             }
         }
-
-        async function verResultado() {
+        
+        function verResultadoManual() {
             cartasSeleccionadas = [];
             for (let i = 1; i <= tiradaActual.num_cartas; i++) {
                 const cartaIndex = document.getElementById(`carta-${i}`).value;
                 const posicion = document.getElementById(`posicion-${i}`).value;
+                
                 if (cartaIndex === "") {
                     alert(`Por favor selecciona la carta ${i}`);
                     return;
                 }
+                
                 cartasSeleccionadas.push({
                     cartaIndex: parseInt(cartaIndex),
-                    posicion,
+                    posicion: posicion,
                     posicionTirada: `C${i}`
                 });
             }
-            await mostrarResultado();
+            
+            mostrarResultado('manual');
         }
-
-        async function mostrarResultado() {
-            const container = document.getElementById('resultado-content');
+        
+        // ═════════════════════════════════════════════════════════════════
+        // MOSTRAR RESULTADO (COMPARTIDO - 95% IGUAL PARA AMBOS)
+        // ═════════════════════════════════════════════════════════════════
+        async function mostrarResultado(modo) {
+            const suffix = modo;
+            const container = document.getElementById(`resultado-content-${suffix}`);
             container.innerHTML = '<div class="loading">Interpretando...</div>';
-            document.getElementById('titulo-resultado-tirada').textContent = tiradaActual.nombre_tirada;
-            showPage('resultado');
+            document.getElementById(`titulo-resultado-${suffix}`).textContent = tiradaActual.nombre_tirada;
+            
+            showPage(`resultado-${suffix}`);
+            
             try {
                 const [posicionesData, combinacionesData] = await Promise.all([
                     fetchNeon('/posicion_en_tirada'),
                     fetchNeon('/combinaciones')
                 ]);
+                
                 todasLasPosiciones = posicionesData;
                 todasLasCombinaciones = combinacionesData;
+                
                 const posiciones = posicionesData.filter(p => p.nombre_tirada === tiradaActual.nombre_tirada);
                 
                 let html = '';
+                
                 for (let i = 0; i < cartasSeleccionadas.length; i++) {
                     const sel = cartasSeleccionadas[i];
                     const carta = todasLasCartas[sel.cartaIndex];
                     const posicionInfo = posiciones.find(p => p.posicion === sel.posicionTirada);
                     
-                    // PARTE 1: FOTO, NÚMERO, NOMBRE, TIPO
+                    // PARTE 1: INFO BÁSICA
                     html += `
                         <div class="carta-resultado">
-                            <div class="carta-img">FOTO<br>${carta.numero || ''}<br>${carta.arcano_es}</div>
-                            <h3 style="color: #d4af37; margin-bottom: 10px;">${carta.numero || ''} ${carta.arcano_es}</h3>
-                            <p><strong>Tipo:</strong> ${carta.tipo || 'Arcano'}</p>
-                            <p style="margin-top: 10px; font-style: italic; color: #aaa;">
-                                ${posicionInfo ? posicionInfo.significado : sel.posicionTirada} - ${sel.posicion.toUpperCase()}
-                            </p>
+                            <div class="carta-img">
+                                FOTO<br>
+                                ${carta.numero || ''}<br>${carta.arcano_es}
+                            </div>
+                            <h3 style="color: #d4af37; margin-bottom: 10px;">
+                                ${carta.numero || ''} ${carta.arcano_es}
+                            </h3>
+                            <p><strong>Posición:</strong> ${posicionInfo ? posicionInfo.significado : sel.posicionTirada} - ${sel.posicion.toUpperCase()}</p>
                     `;
                     
-                    // PARTE 2: FICHA TÉCNICA (EXPANDIBLE)
-                    html += `
-                        <div class="expandible" onclick="this.classList.toggle('active')">
-                            <div class="expandible-header">
-                                <span>📋 Ficha Técnica</span>
-                                <span>▼</span>
-                            </div>
-                            <div class="expandible-content" style="text-align: left;">
-                                <div class="info-grid">
-                                    <p><strong>Características:</strong> ${carta.caracteristicas || 'N/A'}</p>
-                                    <p><strong>Signo:</strong> ${carta.signo || 'N/A'}</p>
-                                    <p><strong>Elemento:</strong> ${carta.elemento || 'N/A'}</p>
-                                    <p><strong>Planeta:</strong> ${carta.planeta || 'N/A'}</p>
-                                    <p><strong>Números:</strong> ${carta.numeros || 'N/A'}</p>
-                                    <p><strong>Chakra:</strong> ${carta.chakra || 'N/A'}</p>
-                                    <p><strong>Mantra:</strong> ${carta.mantra || 'N/A'}</p>
-                                    <p><strong>Piedras/Cristales:</strong> ${carta.piedras_cristales || 'N/A'}</p>
-                                    <p><strong>Esencia/Incienso:</strong> ${carta.esencia_incienso || 'N/A'}</p>
-                                    <p><strong>Aceites/Hierbas:</strong> ${carta.aceites_hierbas || 'N/A'}</p>
-                                    <p><strong>Cábala:</strong> ${carta.cabala || 'N/A'}</p>
-                                    <p><strong>Color:</strong> ${carta.color || 'N/A'}</p>
-                                    <p><strong>Planta:</strong> ${carta.planta || 'N/A'}</p>
-                                </div>
-                                <hr>
-                                <div class="info-grid">
-                                    <p><strong>Palabras clave:</strong> ${sel.posicion === 'recta' ? (carta.palabras_clave_recta || 'N/A') : (carta.palabras_clave_inv || 'N/A')}</p>
-                                    <p><strong>Aspectos personalidad:</strong> ${sel.posicion === 'recta' ? (carta.aspectos_personalidad_recta || 'N/A') : (carta.aspectos_personalidad_inv || 'N/A')}</p>
-                                    <p><strong>Recomendaciones meditación:</strong> ${sel.posicion === 'recta' ? (carta.recomendaciones_meditacion || 'N/A') : (carta.recomendaciones_meditacion_inv || 'N/A')}</p>
-                                    <p><strong>Actividades sugeridas:</strong> ${sel.posicion === 'recta' ? (carta.actividades_sugeridas || 'N/A') : (carta.actividades_sugeridas_inv || 'N/A')}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    // PARTE 2: FICHA TÉCNICA (expandible)
+                    html += crearFichaTecnica(carta, sel.posicion);
                     
-                    // PARTE 3: INTERPRETACIÓN SEGÚN TEMA
+                    // PARTE 3: INTERPRETACIÓN
                     const campoTema = obtenerCampoTema(tiradaActual.tema, sel.posicion);
                     const interpretacion = carta[campoTema] || 'Sin interpretación específica para este tema';
+                    
                     html += `
                         <div class="interpretacion-box">
                             <h4>🔮 Interpretación</h4>
@@ -676,73 +1133,72 @@
                         </div>
                     `;
                     
-                    // PARTE 4: COMBINACIONES (EXPANDIBLE)
+                    // PARTE 4: COMBINACIONES
                     const combinaciones = buscarCombinaciones(carta, i);
                     if (combinaciones.length > 0) {
-                        html += `
-                            <div class="expandible" onclick="this.classList.toggle('active')">
-                                <div class="expandible-header">
-                                    <span>🔗 Combinaciones (${combinaciones.length})</span>
-                                    <span>▼</span>
-                                </div>
-                                <div class="expandible-content" style="text-align: left;">
-                        `;
-                        combinaciones.forEach(comb => {
-                            html += `
-                                <div class="combinacion-item">
-                                    <div class="combinacion-arcanos">
-                                        <div class="combinacion-arcano">
-                                            <div class="carta-img">FOTO<br>${carta.numero || ''}</div>
-                                            <p>${carta.arcano_es}</p>
-                                        </div>
-                                        <div class="combinacion-versus">⚡</div>
-                                        <div class="combinacion-arcano">
-                                            <div class="carta-img">FOTO<br>${comb.otraCartaNumero || ''}</div>
-                                            <p>${comb.otraCarta}</p>
-                                        </div>
-                                    </div>
-                                    <p style="margin: 15px 0; font-style: italic;">"${comb.interpretacion}"</p>
-                                    <p><strong>Posición:</strong> ${comb.posicion || 'N/A'}</p>
-                                    
-                                    <div class="expandible" style="margin-top: 15px;" onclick="event.stopPropagation(); this.classList.toggle('active')">
-                                        <div class="expandible-header" style="background: rgba(212, 175, 55, 0.1);">
-                                            <span>+ Información</span>
-                                            <span>▼</span>
-                                        </div>
-                                        <div class="expandible-content">
-                                            <div class="info-grid">
-                                                ${comb.tipo ? `<p><strong>Tipo:</strong> ${comb.tipo}</p>` : ''}
-                                                ${comb.comb_proximo_paso ? `<p><strong>Próximo paso:</strong> ${comb.comb_proximo_paso}</p>` : ''}
-                                                ${comb.comb_alerta ? `<p><strong>Alerta:</strong> ${comb.comb_alerta}</p>` : ''}
-                                                ${comb.comb_si_no ? `<p><strong>Sí/No:</strong> ${comb.comb_si_no}</p>` : ''}
-                                                ${comb.combi_momento ? `<p><strong>Momento:</strong> ${comb.combi_momento}</p>` : ''}
-                                                ${comb.combi_habilidad ? `<p><strong>Habilidad:</strong> ${comb.combi_habilidad}</p>` : ''}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        html += `</div></div>`;
+                        html += crearSeccionCombinaciones(combinaciones, carta);
                     }
-                    html += `</div>`;
+                    
+                    html += '</div>';
                 }
+                
                 container.innerHTML = html;
+                
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
                 console.error(error);
             }
         }
-
+        
+        // ═════════════════════════════════════════════════════════════════
+        // FUNCIONES AUXILIARES
+        // ═════════════════════════════════════════════════════════════════
+        function crearFichaTecnica(carta, posicion) {
+            return `
+                <div class="expandible" onclick="this.classList.toggle('active')">
+                    <div class="expandible-header">
+                        <span>📋 Ficha Técnica</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="expandible-content">
+                        <div class="info-grid">
+                            <p><strong>Características:</strong> ${carta.caracteristicas || 'N/A'}</p>
+                            <p><strong>Signo:</strong> ${carta.signo || 'N/A'}</p>
+                            <p><strong>Elemento:</strong> ${carta.elemento || 'N/A'}</p>
+                            <p><strong>Planeta:</strong> ${carta.planeta || 'N/A'}</p>
+                            <p><strong>Números:</strong> ${carta.numeros || 'N/A'}</p>
+                            <p><strong>Chakra:</strong> ${carta.chakra || 'N/A'}</p>
+                            <p><strong>Mantra:</strong> ${carta.mantra || 'N/A'}</p>
+                            <p><strong>Piedras/Cristales:</strong> ${carta.piedras_cristales || 'N/A'}</p>
+                            <p><strong>Esencia/Incienso:</strong> ${carta.esencia_incienso || 'N/A'}</p>
+                            <p><strong>Aceites/Hierbas:</strong> ${carta.aceites_hierbas || 'N/A'}</p>
+                            <p><strong>Cábala:</strong> ${carta.cabala || 'N/A'}</p>
+                            <p><strong>Color:</strong> ${carta.color || 'N/A'}</p>
+                            <p><strong>Planta:</strong> ${carta.planta || 'N/A'}</p>
+                        </div>
+                        <hr>
+                        <div class="info-grid">
+                            <p><strong>Palabras clave:</strong> ${posicion === 'recta' ? (carta.palabras_clave_recta || 'N/A') : (carta.palabras_clave_inv || 'N/A')}</p>
+                            <p><strong>Aspectos personalidad:</strong> ${posicion === 'recta' ? (carta.aspectos_personalidad_recta || 'N/A') : (carta.aspectos_personalidad_inv || 'N/A')}</p>
+                            <p><strong>Recomendaciones:</strong> ${posicion === 'recta' ? (carta.recomendaciones_meditacion || 'N/A') : (carta.recomendaciones_meditacion_inv || 'N/A')}</p>
+                            <p><strong>Actividades:</strong> ${posicion === 'recta' ? (carta.actividades_sugeridas || 'N/A') : (carta.actividades_sugeridas_inv || 'N/A')}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
         function buscarCombinaciones(cartaActual, indexActual) {
             const combinaciones = [];
             for (let i = 0; i < cartasSeleccionadas.length; i++) {
                 if (i === indexActual) continue;
+                
                 const otraCarta = todasLasCartas[cartasSeleccionadas[i].cartaIndex];
                 const comb = todasLasCombinaciones.find(c => 
                     (c.arcano1 === cartaActual.arcano_es && c.arcano2 === otraCarta.arcano_es) ||
                     (c.arcano1 === otraCarta.arcano_es && c.arcano2 === cartaActual.arcano_es)
                 );
+                
                 if (comb) {
                     combinaciones.push({
                         otraCarta: otraCarta.arcano_es,
@@ -760,7 +1216,58 @@
             }
             return combinaciones;
         }
-
+        
+        function crearSeccionCombinaciones(combinaciones, cartaActual) {
+            let html = `
+                <div class="expandible" onclick="this.classList.toggle('active')">
+                    <div class="expandible-header">
+                        <span>⚡ Combinaciones (${combinaciones.length})</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="expandible-content">
+            `;
+            
+            combinaciones.forEach(comb => {
+                html += `
+                    <div class="combinacion-item">
+                        <div class="combinacion-arcanos">
+                            <div class="combinacion-arcano">
+                                <div class="carta-img">FOTO<br>${cartaActual.numero || ''}</div>
+                                <p>${cartaActual.arcano_es}</p>
+                            </div>
+                            <div class="combinacion-versus">⚡</div>
+                            <div class="combinacion-arcano">
+                                <div class="carta-img">FOTO<br>${comb.otraCartaNumero || ''}</div>
+                                <p>${comb.otraCarta}</p>
+                            </div>
+                        </div>
+                        <p style="margin: 15px 0; font-style: italic;">"${comb.interpretacion}"</p>
+                        <p><strong>Posición:</strong> ${comb.posicion || 'N/A'}</p>
+                        
+                        <div class="expandible" style="margin-top: 15px;" onclick="event.stopPropagation(); this.classList.toggle('active')">
+                            <div class="expandible-header" style="background: rgba(212, 175, 55, 0.1);">
+                                <span>+ Información</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="expandible-content">
+                                <div class="info-grid">
+                                    ${comb.tipo ? `<p><strong>Tipo:</strong> ${comb.tipo}</p>` : ''}
+                                    ${comb.comb_proximo_paso ? `<p><strong>Próximo paso:</strong> ${comb.comb_proximo_paso}</p>` : ''}
+                                    ${comb.comb_alerta ? `<p><strong>Alerta:</strong> ${comb.comb_alerta}</p>` : ''}
+                                    ${comb.comb_si_no ? `<p><strong>Sí/No:</strong> ${comb.comb_si_no}</p>` : ''}
+                                    ${comb.combi_momento ? `<p><strong>Momento:</strong> ${comb.combi_momento}</p>` : ''}
+                                    ${comb.combi_habilidad ? `<p><strong>Habilidad:</strong> ${comb.combi_habilidad}</p>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div></div>';
+            return html;
+        }
+        
         function obtenerCampoTema(tema, posicion) {
             const mapaTemas = {
                 'AMOR': 'amor',
@@ -787,26 +1294,31 @@
             const base = mapaTemas[temaNormalizado];
             
             if (!base) {
-                console.warn('Tema no encontrado:', tema, '→ usando gen como fallback');
+                console.warn('Tema no encontrado:', tema);
                 return `gen_${posicion === 'recta' ? 'recta' : 'inv'}`;
             }
             
-            // PASADO, PRESENTE y FUTURO usan "_invertida" (no "_inv")
+            // Casos especiales con sufijo _invertida
             if (base === 'pasado' || base === 'presente' || base === 'futuro') {
                 return `${base}_${posicion === 'recta' ? 'recta' : 'invertida'}`;
             }
             
-            // Los demás temas usan "_inv"
             return `${base}_${posicion === 'recta' ? 'recta' : 'inv'}`;
         }
-
+        
+        // ═════════════════════════════════════════════════════════════════
+        // ARCANOS (COMÚN)
+        // ═════════════════════════════════════════════════════════════════
         async function cargarArcanos() {
             const container = document.getElementById('lista-arcanos');
-            container.innerHTML = '<div class="loading">Cargando...</div>';
+            container.innerHTML = '<div class="loading">Cargando arcanos...</div>';
+            
             try {
-                const data = await fetchNeon('/cartas');
-                todasLasCartas = data;
-                container.innerHTML = data.map((c, index) => `
+                if (todasLasCartas.length === 0) {
+                    todasLasCartas = await fetchNeon('/cartas');
+                }
+                
+                container.innerHTML = todasLasCartas.map((c, index) => `
                     <div class="arcano-item" onclick="verArcano(${index})">
                         <div class="arcano-img">FOTO<br>${c.numero || ''}</div>
                         <div>
@@ -819,42 +1331,22 @@
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
-
+        
         async function verArcano(index) {
             const container = document.getElementById('info-arcano');
             container.innerHTML = '<div class="loading">Cargando...</div>';
             showPage('ficha-arcano');
+            
             try {
                 const c = todasLasCartas[index];
+                
                 container.innerHTML = `
                     <div class="carta-resultado">
                         <div class="carta-img">FOTO<br>${c.numero || ''}<br>${c.arcano_es}</div>
                         <h2 style="color: #d4af37;">${c.numero || ''} ${c.arcano_es}</h2>
                         <p><strong>Tipo:</strong> ${c.tipo || 'N/A'}</p>
                     </div>
-                    <div class="expandible active">
-                        <div class="expandible-header">
-                            <span>📋 Ficha Técnica</span>
-                            <span>▼</span>
-                        </div>
-                        <div class="expandible-content">
-                            <div class="info-grid">
-                                <p><strong>Características:</strong> ${c.caracteristicas || 'N/A'}</p>
-                                <p><strong>Signo:</strong> ${c.signo || 'N/A'}</p>
-                                <p><strong>Elemento:</strong> ${c.elemento || 'N/A'}</p>
-                                <p><strong>Planeta:</strong> ${c.planeta || 'N/A'}</p>
-                                <p><strong>Números:</strong> ${c.numeros || 'N/A'}</p>
-                                <p><strong>Chakra:</strong> ${c.chakra || 'N/A'}</p>
-                                <p><strong>Mantra:</strong> ${c.mantra || 'N/A'}</p>
-                                <p><strong>Piedras/Cristales:</strong> ${c.piedras_cristales || 'N/A'}</p>
-                                <p><strong>Esencia/Incienso:</strong> ${c.esencia_incienso || 'N/A'}</p>
-                                <p><strong>Aceites/Hierbas:</strong> ${c.aceites_hierbas || 'N/A'}</p>
-                                <p><strong>Cábala:</strong> ${c.cabala || 'N/A'}</p>
-                                <p><strong>Color:</strong> ${c.color || 'N/A'}</p>
-                                <p><strong>Planta:</strong> ${c.planta || 'N/A'}</p>
-                            </div>
-                        </div>
-                    </div>
+                    ${crearFichaTecnica(c, 'recta')}
                     <div class="expandible active">
                         <div class="expandible-header">
                             <span>🔮 Significados</span>
@@ -864,84 +1356,69 @@
                             <div class="info-grid">
                                 <p><strong>Recta:</strong> ${c.palabras_clave_recta || 'N/A'}</p>
                                 <p><strong>Invertida:</strong> ${c.palabras_clave_inv || 'N/A'}</p>
-                                <hr>
-                                <p><strong>Personalidad Recta:</strong> ${c.aspectos_personalidad_recta || 'N/A'}</p>
-                                <p><strong>Personalidad Inv:</strong> ${c.aspectos_personalidad_inv || 'N/A'}</p>
-                                <hr>
-                                <p><strong>Meditación Recta:</strong> ${c.recomendaciones_meditacion || 'N/A'}</p>
-                                <p><strong>Meditación Inv:</strong> ${c.recomendaciones_meditacion_inv || 'N/A'}</p>
-                                <hr>
-                                <p><strong>Actividades Recta:</strong> ${c.actividades_sugeridas || 'N/A'}</p>
-                                <p><strong>Actividades Inv:</strong> ${c.actividades_sugeridas_inv || 'N/A'}</p>
                             </div>
                         </div>
                     </div>
                 `;
+                
+                // Cargar combinaciones si existen
+                if (todasLasCombinaciones.length === 0) {
+                    todasLasCombinaciones = await fetchNeon('/combinaciones');
+                }
                 
                 const combinaciones = todasLasCombinaciones.filter(comb => 
                     comb.arcano1 === c.arcano_es || comb.arcano2 === c.arcano_es
                 );
                 
                 if (combinaciones.length > 0) {
-                    container.innerHTML += `
-                        <div class="expandible">
-                            <div class="expandible-header">
-                                <span>🔗 Combinaciones (${combinaciones.length})</span>
-                                <span>▼</span>
-                            </div>
-                            <div class="expandible-content">
-                    `;
-                    combinaciones.forEach(comb => {
+                    const combData = combinaciones.map(comb => {
                         const otraCarta = comb.arcano1 === c.arcano_es ? comb.arcano2 : comb.arcano1;
-                        container.innerHTML += `
-                            <div class="combinacion-item">
-                                <p><strong>Con:</strong> ${otraCarta}</p>
-                                <p>${comb.interpretacion}</p>
-                                <p><small>${comb.tipo || ''} | ${comb.posicion || ''}</small></p>
-                            </div>
-                        `;
+                        const otraCartaData = todasLasCartas.find(ca => ca.arcano_es === otraCarta);
+                        return {
+                            otraCarta: otraCarta,
+                            otraCartaNumero: otraCartaData ? otraCartaData.numero : '',
+                            interpretacion: comb.interpretacion,
+                            posicion: comb.posicion,
+                            tipo: comb.tipo
+                        };
                     });
-                    container.innerHTML += '</div></div>';
+                    
+                    container.innerHTML += crearSeccionCombinaciones(combData, c);
                 }
+                
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
-
-        async function cargarTodasTiradasLecturas() {
-            const container = document.getElementById('resultados-busqueda');
+        
+        // ═════════════════════════════════════════════════════════════════
+        // MENÚ DE TIRADAS / BÚSQUEDA (COMÚN CON DIFERENTE DESTINO)
+        // ═════════════════════════════════════════════════════════════════
+        async function cargarTodasTiradas(modo) {
+            const container = document.getElementById(`resultados-busqueda-${modo}`);
             container.innerHTML = '<div class="loading">Cargando...</div>';
+            
             try {
                 const data = await fetchNeon('/tiradas');
                 todasLasTiradas = data;
-                mostrarResultadosLecturas(data);
+                mostrarResultadosBusqueda(data, modo);
                 
-                document.getElementById('buscar-nombre').addEventListener('input', (e) => {
-                    filtrarTiradas();
-                });
-                
-                document.getElementById('buscar-numero').addEventListener('input', (e) => {
-                    filtrarTiradas();
-                });
-                
-                document.getElementById('buscar-cartas').addEventListener('input', (e) => {
-                    filtrarTiradas();
-                });
-                
-                document.getElementById('buscar-tema').addEventListener('input', (e) => {
-                    filtrarTiradas();
-                });
+                // Configurar listeners de búsqueda
+                document.getElementById(`buscar-nombre-${modo}`).addEventListener('input', () => filtrarTiradas(modo));
+                document.getElementById(`buscar-numero-${modo}`).addEventListener('input', () => filtrarTiradas(modo));
+                document.getElementById(`buscar-cartas-${modo}`).addEventListener('input', () => filtrarTiradas(modo));
+                document.getElementById(`buscar-tema-${modo}`).addEventListener('input', () => filtrarTiradas(modo));
                 
             } catch (error) {
                 container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
-
-        function filtrarTiradas() {
-            const busquedaNombre = document.getElementById('buscar-nombre').value.toLowerCase();
-            const busquedaNumero = document.getElementById('buscar-numero').value;
-            const busquedaCartas = document.getElementById('buscar-cartas').value;
-            const busquedaTema = document.getElementById('buscar-tema').value.toLowerCase();
+        
+        function filtrarTiradas(modo) {
+            const busquedaNombre = document.getElementById(`buscar-nombre-${modo}`).value.toLowerCase();
+            const busquedaNumero = document.getElementById(`buscar-numero-${modo}`).value;
+            const busquedaCartas = document.getElementById(`buscar-cartas-${modo}`).value;
+            const busquedaTema = document.getElementById(`buscar-tema-${modo}`).value.toLowerCase();
             
             let resultados = todasLasTiradas;
             
@@ -967,11 +1444,12 @@
                 resultados = resultados.filter(t => t.tema.toLowerCase().includes(busquedaTema));
             }
             
-            mostrarResultadosLecturas(resultados);
+            mostrarResultadosBusqueda(resultados, modo);
         }
-
-        function mostrarResultadosLecturas(resultados) {
-            const container = document.getElementById('resultados-busqueda');
+        
+        function mostrarResultadosBusqueda(resultados, modo) {
+            const container = document.getElementById(`resultados-busqueda-${modo}`);
+            
             if (resultados.length === 0) {
                 container.innerHTML = '<div class="error">No se encontraron tiradas</div>';
                 return;
@@ -980,17 +1458,44 @@
             container.innerHTML = resultados.map((t, index) => {
                 const numReal = todasLasTiradas.indexOf(t) + 1;
                 return `
-                    <div class="tirada-item" onclick="seleccionarTiradaLectura(${numReal - 1})">
+                    <div class="tirada-item" onclick="seleccionarTiradaBusqueda(${numReal - 1}, '${modo}')">
                         <h3>${numReal} - ${t.nombre_tirada} <span class="num-cartas-badge">${t.num_cartas} cartas</span></h3>
                         <p>${t.tema} | ${t['intención'] || t.intencion || 'Sin descripción'}</p>
                     </div>
                 `;
             }).join('');
         }
-
-        function seleccionarTiradaLectura(index) {
+        
+        function seleccionarTiradaBusqueda(index, modo) {
             tiradaActual = todasLasTiradas[index];
-            prepararIndicarCartas();
+            if (modo === 'auto') {
+                showPage('detalle-auto');
+                // Simular que venimos del flujo normal
+                const container = document.getElementById('info-tirada-auto');
+                container.innerHTML = `
+                    <div class="carta-resultado" style="text-align: left;">
+                        <h3 style="color: #d4af37; margin-bottom: 15px; text-align: center;">${index + 1} - ${tiradaActual.nombre_tirada}</h3>
+                        <div class="info-grid">
+                            <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
+                            <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
+                            <p><strong>Intención:</strong> ${tiradaActual['intención'] || tiradaActual.intencion || 'No especificado'}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                showPage('detalle-manual');
+                const container = document.getElementById('info-tirada-manual');
+                container.innerHTML = `
+                    <div class="carta-resultado" style="text-align: left;">
+                        <h3 style="color: #d4af37; margin-bottom: 15px; text-align: center;">${index + 1} - ${tiradaActual.nombre_tirada}</h3>
+                        <div class="info-grid">
+                            <p><strong>Tema:</strong> ${tiradaActual.tema}</p>
+                            <p><strong>Número de cartas:</strong> ${tiradaActual.num_cartas}</p>
+                            <p><strong>Intención:</strong> ${tiradaActual['intención'] || tiradaActual.intencion || 'No especificado'}</p>
+                        </div>
+                    </div>
+                `;
+            }
         }
     </script>
 </body>
